@@ -1,0 +1,25 @@
+name: Install werf CLI
+author: 'Flant'
+description: 'Install actual channel werf version, like multiwerf does, or specified one'
+branding:
+  color: blue
+  icon: anchor
+inputs:
+  group:
+    description: 'The MAJOR.MINOR version'
+    default: '1.1'
+    required: false
+  channel:
+    description: 'The one of the following channel: alpha, beta, ea, stable, rock-solid'
+    default: 'stable'
+    required: false
+  version:
+    description: 'The certain version'
+    required: false
+  verbose:
+    description: 'The verbose output'
+    default: '0'
+    required: false
+runs:
+  using: 'node12'
+  main: 'index.js'

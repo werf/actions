@@ -1,0 +1,31 @@
+name: werf converge
+author: 'Flant'
+description: 'Prepare the environment and perform building, publishing and deployment with werf'
+branding:
+  color: blue
+  icon: anchor
+inputs:
+  group:
+    description: 'The MAJOR.MINOR version'
+    default: '1.1'
+    required: false
+  channel:
+    description: 'The one of the following channel: alpha, beta, ea, stable, rock-solid'
+    default: 'stable'
+    required: false
+  version:
+    description: 'The certain version'
+    required: false
+  env:
+    description: 'Specific deployment environment'
+    required: true
+  github-token:
+    description: 'The GitHub token used to login and to interact with Docker Github Packages'
+    default: ${{ github.token }}
+    required: false
+  kube-config-base64-data:
+    description: 'Base64 encoded kubeconfig data used for deployment, cleanup and distributed locks'
+    required: false
+runs:
+  using: 'node12'
+  main: 'index.js'
