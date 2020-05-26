@@ -8,6 +8,7 @@ This action set allows you to organize CI/CD with GitHub Actions and [werf](http
 - [flant/werf-actions/converge](https://github.com/flant/werf-actions/tree/master/converge)
 - [flant/werf-actions/build-and-publish](https://github.com/flant/werf-actions/tree/master/build-and-publish)
 - [flant/werf-actions/deploy](https://github.com/flant/werf-actions/tree/master/deploy)
+- [flant/werf-actions/dismiss](https://github.com/flant/werf-actions/tree/master/dismiss)
 - [flant/werf-actions/cleanup](https://github.com/flant/werf-actions/tree/master/cleanup)
 
 Each action combines all the necessary steps in itself and logic may be divided into __environment setup__ and launching the corresponding command.
@@ -128,6 +129,24 @@ deploy:
       with:
         env: production
         kube-config-base64-data: ${{ secrets.KUBE_CONFIG_BASE64_DATA }}
+```
+
+### dismiss
+
+```yaml
+dismiss: 
+  name: Dismiss
+  runs-on: ubuntu-latest
+  steps:
+  
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Dismiss
+      uses: flant/werf-actions/dismiss@v1
+      with:
+        kube-config-base64-data: ${{ secrets.KUBE_CONFIG_BASE64_DATA }}
+        env: production
 ```
 
 ### cleanup
