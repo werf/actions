@@ -4083,6 +4083,9 @@ class Manager {
             const tmpFilePath = tmpFile.name;
             yield this.Exec(['ci-env', 'github', '--as-env-file', '-o', tmpFilePath]);
             dotenv.config({ path: tmpFilePath });
+            fs.readFile(tmpFilePath, null, function (err, contents) {
+                console.log(contents.toString());
+            });
             tmpFile.removeCallback();
         });
     }

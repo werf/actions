@@ -59,6 +59,11 @@ export class Manager {
     const tmpFilePath = tmpFile.name
     await this.Exec(['ci-env', 'github', '--as-env-file', '-o', tmpFilePath])
     dotenv.config({path: tmpFilePath})
+
+    fs.readFile(tmpFilePath, null, function (err, contents) {
+      console.log(contents.toString())
+    })
+
     tmpFile.removeCallback()
   }
 
