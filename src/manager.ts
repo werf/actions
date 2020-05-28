@@ -61,7 +61,11 @@ export class Manager {
     dotenv.config({path: tmpFilePath})
 
     fs.readFile(tmpFilePath, null, function (err, contents) {
-      console.log(contents.toString())
+      if (err) {
+        console.error(err)
+      } else {
+        console.log(contents.toString())
+      }
     })
 
     tmpFile.removeCallback()
