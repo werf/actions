@@ -15,7 +15,7 @@ Using `group` and `channel` inputs the user can switch the release channel.
 > This is recommended approach to be up-to-date and to use actual werf version without changing configurations
   
 ```yaml
-- uses: flant/werf-actions/converge@v1
+- uses: flant/werf-actions/converge@master
   with:
     group: 1.1
     channel: alpha
@@ -24,7 +24,7 @@ Using `group` and `channel` inputs the user can switch the release channel.
 Withal, it is not necessary to work within release channels, and the user might specify certain werf version with `version` input.
 
 ```yaml
-- uses: flant/werf-actions/converge@v1
+- uses: flant/werf-actions/converge@master
   with:
     version: v1.1.16
 ```
@@ -38,7 +38,7 @@ The _kubeconfig_ may be used for deployment, cleanup, distributed locks and cach
 * Pass secret with `kube-config-base64-data` input:
  
   ```yaml
-  - uses: flant/werf-actions/converge@v1
+  - uses: flant/werf-actions/converge@master
     with:
       kube-config-base64-data: ${{ secrets.KUBE_CONFIG_BASE64_DATA }}
   ```
@@ -56,7 +56,7 @@ By default, action will use the token provided to your workflow.
 Any werf option can be defined with environment variables:
 
 ```yaml
-- uses: flant/werf-actions/converge@v1
+- uses: flant/werf-actions/converge@master
   with:
     env: production
   env:
@@ -101,7 +101,7 @@ dismiss:
       uses: actions/checkout@v2
 
     - name: Dismiss
-      uses: flant/werf-actions/dismiss@v1
+      uses: flant/werf-actions/dismiss@master
       with:
         kube-config-base64-data: ${{ secrets.KUBE_CONFIG_BASE64_DATA }}
         env: production

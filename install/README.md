@@ -9,7 +9,7 @@ Using `group` and `channel` inputs the user can switch the release channel.
 > This is recommended approach to be up-to-date and to use actual werf version without changing configurations
   
 ```yaml
-- uses: flant/werf-actions/install@v1
+- uses: flant/werf-actions/install@master
   with:
     group: 1.1
     channel: alpha
@@ -18,7 +18,7 @@ Using `group` and `channel` inputs the user can switch the release channel.
 Withal, it is not necessary to work within release channels, and the user might specify certain werf version with `version` input.
 
 ```yaml
-- uses: flant/werf-actions/install@v1
+- uses: flant/werf-actions/install@master
   with:
     version: v1.1.16
 ```
@@ -48,10 +48,10 @@ werf:
   steps:
   
     - name: Checkout code  
-      uses: actions/checkout@v1
+      uses: actions/checkout@master
 
     - name: Install werf CLI  
-      uses: flant/werf-actions/install@v1
+      uses: flant/werf-actions/install@master
     
     # for deploy and distributed locks
     - name: Create kube config
