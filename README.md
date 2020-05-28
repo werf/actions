@@ -3,12 +3,15 @@
 </p>
 ___
 
-This action set allows you to organize CI/CD with GitHub Actions and [werf](https://github.com/flant/werf). The set consists of four independent complex actions:
+This action set allows you to organize CI/CD with GitHub Actions and [werf](https://github.com/flant/werf). The set consists of several independent and complex actions:
 
 - [flant/werf-actions/converge](https://github.com/flant/werf-actions/tree/master/converge)
 - [flant/werf-actions/build-and-publish](https://github.com/flant/werf-actions/tree/master/build-and-publish)
+- [flant/werf-actions/build](https://github.com/flant/werf-actions/tree/master/build)
+- [flant/werf-actions/publish](https://github.com/flant/werf-actions/tree/master/build)
 - [flant/werf-actions/deploy](https://github.com/flant/werf-actions/tree/master/deploy)
 - [flant/werf-actions/dismiss](https://github.com/flant/werf-actions/tree/master/dismiss)
+- [flant/werf-actions/run](https://github.com/flant/werf-actions/tree/master/run)
 - [flant/werf-actions/cleanup](https://github.com/flant/werf-actions/tree/master/cleanup)
 
 Each action combines all the necessary steps in itself and logic may be divided into __environment setup__ and launching the corresponding command.
@@ -147,6 +150,29 @@ dismiss:
       with:
         kube-config-base64-data: ${{ secrets.KUBE_CONFIG_BASE64_DATA }}
         env: production
+```
+
+### run 
+
+```yaml
+run: 
+  name: Run
+  runs-on: ubuntu-latest
+  steps:
+  
+    - name: Checkout code
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+
+    - name: Run
+      uses: flant/werf-actions/run@master
+      with:
+        image: backend
+        args: rails server
+        kube-config-base64-data: ${{ secrets.KUBE_CONFIG_BASE64_DATA }}
+      env:
+        WERF_DOCKER_OPTIONS: "-d -p 3000:3000"
 ```
 
 ### cleanup
