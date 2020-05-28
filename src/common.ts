@@ -4,8 +4,36 @@ import * as fs from 'fs'
 import * as semver from 'semver'
 import {context} from '@actions/github'
 import {String} from 'typescript-string-operations'
+import {Manager} from './manager'
 
 const minimalWerfVersion = 'v1.1.17'
+
+export async function PrepareEnvironAndRunWerfCommand(
+  args: string[]
+): Promise<void> {
+  try {
+    ProcessGitHubContext()
+
+    const kubeConfigBase64Data = core.getInput('kube-config-base64-data')
+    if (kubeConfigBase64Data !== '') {
+      SetupKubeConfig(kubeConfigBase64Data)
+    }
+
+    const m = new Manager()
+    await m.Install()
+
+    const versionOutput = await m.GetOutput(['version'])
+    ValidateWerfVersion(versionOutput)
+
+    process.env.GITHUB_TOKEN =
+      process.env.GITHUB_TOKEN || core.getInput('github-token')
+    await m.PerformCIEnv()
+
+    await m.Exec(args)
+  } catch (error) {
+    core.setFailed(error.message)
+  }
+}
 
 export async function SetupKubeConfig(
   kubeConfigBase64Data: string
