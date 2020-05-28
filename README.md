@@ -22,7 +22,7 @@ Each action combines all the necessary steps in itself and logic may be divided 
 
 ### werf binary setup
 
-By default, all actions setup actual werf version for [1.1 stable channel](https://werf.io/releases.html) (more details about channels, werf release cycle and compatibility promise [here](https://github.com/flant/werf#backward-compatibility-promise)). 
+By default, all actions setup actual werf version for [1.1 alpha channel](https://werf.io/releases.html) (more details about channels, werf release cycle and compatibility promise [here](https://github.com/flant/werf#backward-compatibility-promise)). 
 Using `group` and `channel` inputs the user can switch the release channel.
 
 > This is recommended approach to be up-to-date and to use actual werf version without changing configurations
