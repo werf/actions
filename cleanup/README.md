@@ -70,7 +70,7 @@ group:
   required: false
 channel:
   description: 'The one of the following channel: alpha, beta, ea, stable, rock-solid'
-  default: 'stable'
+  default: 'alpha'
   required: false
 version:
   description: 'The certain version'
