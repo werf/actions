@@ -73,7 +73,7 @@ export function ValidateWerfVersion(version: string): void {
 
   throw new Error(
     String.Format(
-      'werf version {0} is not supported (expected version should be equal or lower than {1})',
+      'werf version {0} is not supported (expected version should be equal or greater than {1})',
       version.trim(),
       minimalWerfVersion
     )

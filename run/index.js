@@ -4207,7 +4207,7 @@ function run() {
             }
             // legacy
             if (process.env.WERF_DOCKER_OPTIONS) {
-                args.push(typescript_string_operations_1.String.Format("--docker-options={0}", process.env.WERF_DOCKER_OPTIONS));
+                args.push(typescript_string_operations_1.String.Format('--docker-options={0}', process.env.WERF_DOCKER_OPTIONS));
             }
             // legacy
             if (process.env.WERF_DRY_RUN) {
@@ -11621,7 +11621,7 @@ function ValidateWerfVersion(version) {
             return;
         }
     }
-    throw new Error(typescript_string_operations_1.String.Format('werf version {0} is not supported (expected version should be equal or lower than {1})', version.trim(), minimalWerfVersion));
+    throw new Error(typescript_string_operations_1.String.Format('werf version {0} is not supported (expected version should be equal or greater than {1})', version.trim(), minimalWerfVersion));
 }
 exports.ValidateWerfVersion = ValidateWerfVersion;
 

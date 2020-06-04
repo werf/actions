@@ -1,7 +1,7 @@
 import * as core from '@actions/core'
 import {PrepareEnvironAndRunWerfCommand} from './common'
 import {String} from 'typescript-string-operations'
-import { parseArgsStringToArgv } from 'string-argv'
+import {parseArgsStringToArgv} from 'string-argv'
 
 async function run(): Promise<void> {
   try {
@@ -17,7 +17,7 @@ async function run(): Promise<void> {
     // legacy
     if (process.env.WERF_DOCKER_OPTIONS) {
       args.push(
-        String.Format("--docker-options={0}", process.env.WERF_DOCKER_OPTIONS)
+        String.Format('--docker-options={0}', process.env.WERF_DOCKER_OPTIONS)
       )
     }
 
