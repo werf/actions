@@ -11499,7 +11499,7 @@ function ValidateWerfVersion(version) {
             return;
         }
     }
-    throw new Error(typescript_string_operations_1.String.Format('werf version {0} is not supported (expected version should be equal or lower than {1})', version.trim(), minimalWerfVersion));
+    throw new Error(typescript_string_operations_1.String.Format('werf version {0} is not supported (expected version should be equal or greater than {1})', version.trim(), minimalWerfVersion));
 }
 exports.ValidateWerfVersion = ValidateWerfVersion;
 
