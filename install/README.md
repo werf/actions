@@ -1,15 +1,15 @@
 <p align="center">
-  <img src="https://github.com/flant/werf/raw/master/docs/images/werf-logo.svg?sanitize=true" style="max-height:100%;" height="175">
+  <img src="https://github.com/werf/werf/raw/master/docs/images/werf-logo.svg?sanitize=true" style="max-height:100%;" height="175">
 </p>
 ___
  
-By default, all actions setup actual werf version for [1.1 alpha channel](https://werf.io/releases.html) (more details about channels, werf release cycle and compatibility promise [here](https://github.com/flant/werf#backward-compatibility-promise)). 
+By default, all actions setup actual werf version for [1.1 alpha channel](https://werf.io/releases.html) (more details about channels, werf release cycle and compatibility promise [here](https://github.com/werf/werf#backward-compatibility-promise)). 
 Using `group` and `channel` inputs the user can switch the release channel.
 
 > This is recommended approach to be up-to-date and to use actual werf version without changing configurations
   
 ```yaml
-- uses: flant/werf-actions/install@master
+- uses: werf/actions/install@master
   with:
     group: 1.1
     channel: alpha
@@ -18,7 +18,7 @@ Using `group` and `channel` inputs the user can switch the release channel.
 Withal, it is not necessary to work within release channels, and the user might specify certain werf version with `version` input.
 
 ```yaml
-- uses: flant/werf-actions/install@master
+- uses: werf/actions/install@master
   with:
     version: v1.1.16
 ```
@@ -51,7 +51,7 @@ werf:
       uses: actions/checkout@master
 
     - name: Install werf CLI  
-      uses: flant/werf-actions/install@master
+      uses: werf/actions/install@master
     
     # for deploy and distributed locks
     - name: Create kube config
