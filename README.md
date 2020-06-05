@@ -1,34 +1,34 @@
 <p align="center">
-  <img src="https://github.com/flant/werf/raw/master/docs/images/werf-logo.svg?sanitize=true" style="max-height:100%;" height="175">
+  <img src="https://github.com/werf/werf/raw/master/docs/images/werf-logo.svg?sanitize=true" style="max-height:100%;" height="175">
 </p>
 ___
 
-This action set allows you to organize CI/CD with GitHub Actions and [werf](https://github.com/flant/werf). The set consists of several independent and complex actions:
+This action set allows you to organize CI/CD with GitHub Actions and [werf](https://github.com/werf/werf). The set consists of several independent and complex actions:
 
-- [flant/werf-actions/converge](https://github.com/flant/werf-actions/tree/master/converge)
-- [flant/werf-actions/build-and-publish](https://github.com/flant/werf-actions/tree/master/build-and-publish)
-- [flant/werf-actions/build](https://github.com/flant/werf-actions/tree/master/build)
-- [flant/werf-actions/publish](https://github.com/flant/werf-actions/tree/master/build)
-- [flant/werf-actions/deploy](https://github.com/flant/werf-actions/tree/master/deploy)
-- [flant/werf-actions/dismiss](https://github.com/flant/werf-actions/tree/master/dismiss)
-- [flant/werf-actions/run](https://github.com/flant/werf-actions/tree/master/run)
-- [flant/werf-actions/cleanup](https://github.com/flant/werf-actions/tree/master/cleanup)
+- [werf/actions/converge](https://github.com/werf/actions/tree/master/converge)
+- [werf/actions/build-and-publish](https://github.com/werf/actions/tree/master/build-and-publish)
+- [werf/actions/build](https://github.com/werf/actions/tree/master/build)
+- [werf/actions/publish](https://github.com/werf/actions/tree/master/build)
+- [werf/actions/deploy](https://github.com/werf/actions/tree/master/deploy)
+- [werf/actions/dismiss](https://github.com/werf/actions/tree/master/dismiss)
+- [werf/actions/run](https://github.com/werf/actions/tree/master/run)
+- [werf/actions/cleanup](https://github.com/werf/actions/tree/master/cleanup)
 
 Each action combines all the necessary steps in itself and logic may be divided into __environment setup__ and launching the corresponding command.
 
-> Also, there is another action — [flant/werf-actions/install](https://github.com/flant/werf-actions/tree/master/install). With this action a user can just install werf and use binary within job steps for own purposes
+> Also, there is another action — [werf/actions/install](https://github.com/werf/actions/tree/master/install). With this action a user can just install werf and use binary within job steps for own purposes
 
 ## Environment setup in details
 
 ### werf binary setup
 
-By default, all actions setup actual werf version for [1.1 alpha channel](https://werf.io/releases.html) (more details about channels, werf release cycle and compatibility promise [here](https://github.com/flant/werf#backward-compatibility-promise)). 
+By default, all actions setup actual werf version for [1.1 alpha channel](https://werf.io/releases.html) (more details about channels, werf release cycle and compatibility promise [here](https://github.com/werf/werf#backward-compatibility-promise)). 
 Using `group` and `channel` inputs the user can switch the release channel.
 
 > This is recommended approach to be up-to-date and to use actual werf version without changing configurations
   
 ```yaml
-- uses: flant/werf-actions/converge@master
+- uses: werf/actions/converge@master
   with:
     group: 1.1
     channel: alpha
@@ -37,7 +37,7 @@ Using `group` and `channel` inputs the user can switch the release channel.
 Withal, it is not necessary to work within release channels, and the user might specify certain werf version with `version` input.
 
 ```yaml
-- uses: flant/werf-actions/converge@master
+- uses: werf/actions/converge@master
   with:
     version: v1.1.16
 ```
@@ -51,7 +51,7 @@ The _kubeconfig_ may be used for deployment, cleanup, distributed locks and cach
 * Pass secret with `kube-config-base64-data` input:
  
   ```yaml
-  - uses: flant/werf-actions/build-and-publish@master
+  - uses: werf/actions/build-and-publish@master
     with:
       kube-config-base64-data: ${{ secrets.KUBE_CONFIG_BASE64_DATA }}
   ```
@@ -69,7 +69,7 @@ By default, action will use the token provided to your workflow.
 Any werf option can be defined with environment variables:
 
 ```yaml
-- uses: flant/werf-actions/build-and-publish@master
+- uses: werf/actions/build-and-publish@master
   env:
     WERF_LOG_VERBOSE: "on"
     WERF_TAG_CUSTOM_TAG1: tag1
@@ -92,7 +92,7 @@ converge:
         fetch-depth: 0
 
     - name: Converge
-      uses: flant/werf-actions/converge@master
+      uses: werf/actions/converge@master
       with:
         env: production
         kube-config-base64-data: ${{ secrets.KUBE_CONFIG_BASE64_DATA }}
@@ -112,7 +112,7 @@ build-and-publish:
         fetch-depth: 0
 
     - name: Build and Publish
-      uses: flant/werf-actions/build-and-publish@master
+      uses: werf/actions/build-and-publish@master
       with:
         kube-config-base64-data: ${{ secrets.KUBE_CONFIG_BASE64_DATA }}
 
@@ -128,7 +128,7 @@ deploy:
         fetch-depth: 0
 
     - name: Deploy
-      uses: flant/werf-actions/deploy@master
+      uses: werf/actions/deploy@master
       with:
         env: production
         kube-config-base64-data: ${{ secrets.KUBE_CONFIG_BASE64_DATA }}
@@ -146,7 +146,7 @@ dismiss:
       uses: actions/checkout@v2
 
     - name: Dismiss
-      uses: flant/werf-actions/dismiss@master
+      uses: werf/actions/dismiss@master
       with:
         kube-config-base64-data: ${{ secrets.KUBE_CONFIG_BASE64_DATA }}
         env: production
@@ -166,7 +166,7 @@ run:
         fetch-depth: 0
 
     - name: Run
-      uses: flant/werf-actions/run@master
+      uses: werf/actions/run@master
       with:
         image: backend
         args: rails server
@@ -190,7 +190,7 @@ cleanup:
       run: git fetch --prune --unshallow
 
     - name: Cleanup
-      uses: flant/werf-actions/cleanup@master
+      uses: werf/actions/cleanup@master
       with:
         kube-config-base64-data: ${{ secrets.KUBE_CONFIG_BASE64_DATA }}
 ```
@@ -207,7 +207,7 @@ werf:
       uses: actions/checkout@master
 
     - name: Install werf CLI  
-      uses: flant/werf-actions/install@master
+      uses: werf/actions/install@master
     
     # for deploy and distributed locks
     - name: Create kube config

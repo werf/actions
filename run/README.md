@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://github.com/flant/werf/raw/master/docs/images/werf-logo.svg?sanitize=true" style="max-height:100%;" height="175">
+  <img src="https://github.com/werf/werf/raw/master/docs/images/werf-logo.svg?sanitize=true" style="max-height:100%;" height="175">
 </p>
 ___
 
@@ -9,13 +9,13 @@ The action combines all the necessary steps in itself and logic may be divided i
 
 ### werf binary setup
  
-By default, all actions setup actual werf version for [1.1 alpha channel](https://werf.io/releases.html) (more details about channels, werf release cycle and compatibility promise [here](https://github.com/flant/werf#backward-compatibility-promise)). 
+By default, all actions setup actual werf version for [1.1 alpha channel](https://werf.io/releases.html) (more details about channels, werf release cycle and compatibility promise [here](https://github.com/werf/werf#backward-compatibility-promise)). 
 Using `group` and `channel` inputs the user can switch the release channel.
 
 > This is recommended approach to be up-to-date and to use actual werf version without changing configurations
   
 ```yaml
-- uses: flant/werf-actions/run@master
+- uses: werf/actions/run@master
   with:
     group: 1.1
     channel: alpha
@@ -24,7 +24,7 @@ Using `group` and `channel` inputs the user can switch the release channel.
 Withal, it is not necessary to work within release channels, and the user might specify certain werf version with `version` input.
 
 ```yaml
-- uses: flant/werf-actions/run@master
+- uses: werf/actions/run@master
   with:
     version: v1.1.16
 ```
@@ -38,7 +38,7 @@ The _kubeconfig_ may be used for deployment, cleanup, distributed locks and cach
 * Pass secret with `kube-config-base64-data` input:
  
   ```yaml
-  - uses: flant/werf-actions/run@master
+  - uses: werf/actions/run@master
     with:
       kube-config-base64-data: ${{ secrets.KUBE_CONFIG_BASE64_DATA }}
   ```
@@ -56,7 +56,7 @@ By default, action will use the token provided to your workflow.
 Any werf option can be defined with environment variables:
 
 ```yaml
-- uses: flant/werf-actions/run@master
+- uses: werf/actions/run@master
   env:
     WERF_LOG_VERBOSE: "on"
     WERF_TAG_CUSTOM_TAG1: tag1
@@ -107,7 +107,7 @@ run:
         fetch-depth: 0
 
     - name: Run
-      uses: flant/werf-actions/run@master
+      uses: werf/actions/run@master
       with:
         image: backend
         args: rails server

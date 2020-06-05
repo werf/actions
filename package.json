@@ -36,16 +36,15 @@
     "pack": "pack.sh",
     "all": "npm run build && npm run format && npm run lint && npm run pack"
   },
-  "private": true,
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/flant/werf-actions.git"
+    "url": "git+https://github.com/werf/actions.git"
   },
   "keywords": [],
   "author": "flant",
   "license": "Apache License 2.0",
   "bugs": {
-    "url": "https://github.com/flant/werf-actions/issues"
+    "url": "https://github.com/werf/actions/issues"
   },
-  "homepage": "https://github.com/flant/werf-actions#readme"
+  "homepage": "https://github.com/werf/actions#readme"
 }
