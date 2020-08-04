@@ -60,7 +60,7 @@ export class Manager {
     await this.Exec(['ci-env', 'github', '--as-env-file', '-o', tmpFilePath])
     dotenv.config({path: tmpFilePath})
 
-    fs.readFile(tmpFilePath, null, function (err, contents) {
+    fs.readFile(tmpFilePath, null, function(err, contents) {
       if (err) {
         console.error(err)
       } else {
@@ -172,6 +172,9 @@ export class Manager {
 
   private static _toolVersionCacheID(binaryUrl: string): string {
     const md5sum = crypto.createHash('md5')
-    return md5sum.update(binaryUrl).digest('hex').toString()
+    return md5sum
+      .update(binaryUrl)
+      .digest('hex')
+      .toString()
   }
 }

@@ -6607,7 +6607,7 @@ module.exports = require("crypto");
 /***/ 418:
 /***/ (function(module) {
 
-module.exports = {"_from":"superagent@^3.8.3","_id":"superagent@3.8.3","_inBundle":false,"_integrity":"sha512-GLQtLMCoEIK4eDv6OGtkOoSMt3D+oq0y3dsxMuYuDvaNUvuT8eFBuLmfR0iYYzHC1e8hpzC6ZsxbuP6DIalMFA==","_location":"/superagent","_phantomChildren":{},"_requested":{"type":"range","registry":true,"raw":"superagent@^3.8.3","name":"superagent","escapedName":"superagent","rawSpec":"^3.8.3","saveSpec":null,"fetchSpec":"^3.8.3"},"_requiredBy":["/"],"_resolved":"https://registry.npmjs.org/superagent/-/superagent-3.8.3.tgz","_shasum":"460ea0dbdb7d5b11bc4f78deba565f86a178e128","_spec":"superagent@^3.8.3","_where":"C:\\Users\\alexi\\Documents\\GitHub\\werf-actions","author":{"name":"TJ Holowaychuk","email":"tj@vision-media.ca"},"browser":{"./lib/node/index.js":"./lib/client.js","./test/support/server.js":"./test/support/blank.js"},"bugs":{"url":"https://github.com/visionmedia/superagent/issues"},"bundleDependencies":false,"component":{"scripts":{"superagent":"lib/client.js"}},"contributors":[{"name":"Kornel Lesiński","email":"kornel@geekhood.net"},{"name":"Peter Lyons","email":"pete@peterlyons.com"},{"name":"Hunter Loftis","email":"hunter@hunterloftis.com"}],"dependencies":{"component-emitter":"^1.2.0","cookiejar":"^2.1.0","debug":"^3.1.0","extend":"^3.0.0","form-data":"^2.3.1","formidable":"^1.2.0","methods":"^1.1.1","mime":"^1.4.1","qs":"^6.5.1","readable-stream":"^2.3.5"},"deprecated":false,"description":"elegant & feature rich browser / node HTTP with a fluent API","devDependencies":{"Base64":"^1.0.1","basic-auth-connect":"^1.0.0","body-parser":"^1.18.2","browserify":"^14.1.0","cookie-parser":"^1.4.3","express":"^4.16.3","express-session":"^1.15.6","marked":"0.3.12","mocha":"^3.5.3","multer":"^1.3.0","should":"^11.2.0","should-http":"^0.1.1","zuul":"^3.11.1"},"engines":{"node":">= 4.0"},"homepage":"https://github.com/visionmedia/superagent#readme","keywords":["http","ajax","request","agent"],"license":"MIT","main":"./lib/node/index.js","name":"superagent","repository":{"type":"git","url":"git://github.com/visionmedia/superagent.git"},"scripts":{"prepare":"make all","test":"make test"},"version":"3.8.3"};
+module.exports = {"_from":"superagent@^3.8.3","_id":"superagent@3.8.3","_inBundle":false,"_integrity":"sha512-GLQtLMCoEIK4eDv6OGtkOoSMt3D+oq0y3dsxMuYuDvaNUvuT8eFBuLmfR0iYYzHC1e8hpzC6ZsxbuP6DIalMFA==","_location":"/superagent","_phantomChildren":{},"_requested":{"type":"range","registry":true,"raw":"superagent@^3.8.3","name":"superagent","escapedName":"superagent","rawSpec":"^3.8.3","saveSpec":null,"fetchSpec":"^3.8.3"},"_requiredBy":["/"],"_resolved":"https://registry.npmjs.org/superagent/-/superagent-3.8.3.tgz","_shasum":"460ea0dbdb7d5b11bc4f78deba565f86a178e128","_spec":"superagent@^3.8.3","_where":"C:\\Users\\alexi\\Documents\\GitHub\\actions","author":{"name":"TJ Holowaychuk","email":"tj@vision-media.ca"},"browser":{"./lib/node/index.js":"./lib/client.js","./test/support/server.js":"./test/support/blank.js"},"bugs":{"url":"https://github.com/visionmedia/superagent/issues"},"bundleDependencies":false,"component":{"scripts":{"superagent":"lib/client.js"}},"contributors":[{"name":"Kornel Lesiński","email":"kornel@geekhood.net"},{"name":"Peter Lyons","email":"pete@peterlyons.com"},{"name":"Hunter Loftis","email":"hunter@hunterloftis.com"}],"dependencies":{"component-emitter":"^1.2.0","cookiejar":"^2.1.0","debug":"^3.1.0","extend":"^3.0.0","form-data":"^2.3.1","formidable":"^1.2.0","methods":"^1.1.1","mime":"^1.4.1","qs":"^6.5.1","readable-stream":"^2.3.5"},"deprecated":false,"description":"elegant & feature rich browser / node HTTP with a fluent API","devDependencies":{"Base64":"^1.0.1","basic-auth-connect":"^1.0.0","body-parser":"^1.18.2","browserify":"^14.1.0","cookie-parser":"^1.4.3","express":"^4.16.3","express-session":"^1.15.6","marked":"0.3.12","mocha":"^3.5.3","multer":"^1.3.0","should":"^11.2.0","should-http":"^0.1.1","zuul":"^3.11.1"},"engines":{"node":">= 4.0"},"homepage":"https://github.com/visionmedia/superagent#readme","keywords":["http","ajax","request","agent"],"license":"MIT","main":"./lib/node/index.js","name":"superagent","repository":{"type":"git","url":"git://github.com/visionmedia/superagent.git"},"scripts":{"prepare":"make all","test":"make test"},"version":"3.8.3"};
 
 /***/ }),
 
@@ -7557,7 +7557,7 @@ var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (
 var __importStar = (this && this.__importStar) || function (mod) {
     if (mod && mod.__esModule) return mod;
     var result = {};
-    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
     __setModuleDefault(result, mod);
     return result;
 };
@@ -7637,6 +7637,7 @@ class HTTPError extends Error {
 }
 exports.HTTPError = HTTPError;
 const IS_WINDOWS = process.platform === 'win32';
+const IS_MAC = process.platform === 'darwin';
 const userAgent = 'actions/tool-cache';
 /**
  * Download a tool from an url and stream it into a file
@@ -7852,6 +7853,36 @@ function extractTar(file, dest, flags = 'xz') {
     });
 }
 exports.extractTar = extractTar;
+/**
+ * Extract a xar compatible archive
+ *
+ * @param file     path to the archive
+ * @param dest     destination directory. Optional.
+ * @param flags    flags for the xar. Optional.
+ * @returns        path to the destination directory
+ */
+function extractXar(file, dest, flags = []) {
+    return __awaiter(this, void 0, void 0, function* () {
+        assert_1.ok(IS_MAC, 'extractXar() not supported on current OS');
+        assert_1.ok(file, 'parameter "file" is required');
+        dest = yield _createExtractFolder(dest);
+        let args;
+        if (flags instanceof Array) {
+            args = flags;
+        }
+        else {
+            args = [flags];
+        }
+        args.push('-x', '-C', dest, '-f', file);
+        if (core.isDebug()) {
+            args.push('-v');
+        }
+        const xarPath = yield io.which('xar', true);
+        yield exec_1.exec(`"${xarPath}"`, _unique(args));
+        return dest;
+    });
+}
+exports.extractXar = extractXar;
 /**
  * Extract a zip
  *
@@ -8159,6 +8190,13 @@ function _getGlobal(key, defaultValue) {
     const value = global[key];
     /* eslint-enable @typescript-eslint/no-explicit-any */
     return value !== undefined ? value : defaultValue;
+}
+/**
+ * Returns an array of unique values.
+ * @param values Values to make unique.
+ */
+function _unique(values) {
+    return Array.from(new Set(values));
 }
 //# sourceMappingURL=tool-cache.js.map
 
@@ -15944,7 +15982,15 @@ function plural(ms, msAbs, n, name) {
 
 "use strict";
 
+var __spreadArrays = (this && this.__spreadArrays) || function () {
+    for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
+    for (var r = Array(s), k = 0, i = 0; i < il; i++)
+        for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
+            r[k] = a[j];
+    return r;
+};
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.StringBuilder = exports.String = void 0;
 var String = (function () {
     function String() {
     }
@@ -15990,7 +16036,7 @@ var String = (function () {
                 return tempString_1;
             }
             var stringArray = args;
-            return String.join.apply(String, [delimiter].concat(stringArray));
+            return String.join.apply(String, __spreadArrays([delimiter], stringArray));
         }
         catch (e) {
             console.log(e);
@@ -16076,7 +16122,7 @@ var String = (function () {
                 var numberparts = replacedString.split(/[^0-9]+/g);
                 var parts = numberparts;
                 if (numberparts.length > 1) {
-                    parts = [String.join.apply(String, [''].concat((numberparts.splice(0, numberparts.length - 1)))), numberparts[numberparts.length - 1]];
+                    parts = [String.join.apply(String, __spreadArrays([''], (numberparts.splice(0, numberparts.length - 1)))), numberparts[numberparts.length - 1]];
                 }
                 var integer = parts[0];
                 var mod = integer.length % 3;
@@ -16188,7 +16234,7 @@ var StringBuilder = (function () {
         for (var _i = 1; _i < arguments.length; _i++) {
             args[_i - 1] = arguments[_i];
         }
-        this.Values.push(String.Format.apply(String, [format].concat(args)));
+        this.Values.push(String.Format.apply(String, __spreadArrays([format], args)));
     };
     StringBuilder.prototype.Clear = function () {
         this.Values = [];
@@ -17168,7 +17214,7 @@ var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (
 var __importStar = (this && this.__importStar) || function (mod) {
     if (mod && mod.__esModule) return mod;
     var result = {};
-    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
     __setModuleDefault(result, mod);
     return result;
 };
@@ -17323,7 +17369,10 @@ class Manager {
     }
     static _toolVersionCacheID(binaryUrl) {
         const md5sum = crypto.createHash('md5');
-        return md5sum.update(binaryUrl).digest('hex').toString();
+        return md5sum
+            .update(binaryUrl)
+            .digest('hex')
+            .toString();
     }
 }
 exports.Manager = Manager;
