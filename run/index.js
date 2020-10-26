@@ -11455,7 +11455,31 @@ function sync (path, options) {
 
 
 /***/ }),
-/* 420 */,
+/* 420 */
+/***/ (function(__unusedmodule, exports) {
+
+"use strict";
+
+// We use any as a valid input type
+/* eslint-disable @typescript-eslint/no-explicit-any */
+Object.defineProperty(exports, "__esModule", { value: true });
+/**
+ * Sanitizes an input into a string so it can be passed into issueCommand safely
+ * @param input input to sanitize into a string
+ */
+function toCommandValue(input) {
+    if (input === null || input === undefined) {
+        return '';
+    }
+    else if (typeof input === 'string' || input instanceof String) {
+        return input;
+    }
+    return JSON.stringify(input);
+}
+exports.toCommandValue = toCommandValue;
+//# sourceMappingURL=utils.js.map
+
+/***/ }),
 /* 421 */,
 /* 422 */
 /***/ (function(module, __unusedexports, __webpack_require__) {
@@ -32918,6 +32942,8 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const command_1 = __webpack_require__(761);
+const file_command_1 = __webpack_require__(924);
+const utils_1 = __webpack_require__(420);
 const os = __importStar(__webpack_require__(87));
 const path = __importStar(__webpack_require__(622));
 /**
@@ -32944,9 +32970,17 @@ var ExitCode;
  */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function exportVariable(name, val) {
-    const convertedVal = command_1.toCommandValue(val);
+    const convertedVal = utils_1.toCommandValue(val);
     process.env[name] = convertedVal;
-    command_1.issueCommand('set-env', { name }, convertedVal);
+    const filePath = process.env['GITHUB_ENV'] || '';
+    if (filePath) {
+        const delimiter = '_GitHubActionsFileCommandDelimeter_';
+        const commandValue = `${name}<<${delimiter}${os.EOL}${convertedVal}${os.EOL}${delimiter}`;
+        file_command_1.issueCommand('ENV', commandValue);
+    }
+    else {
+        command_1.issueCommand('set-env', { name }, convertedVal);
+    }
 }
 exports.exportVariable = exportVariable;
 /**
@@ -32962,7 +32996,13 @@ exports.setSecret = setSecret;
  * @param inputPath
  */
 function addPath(inputPath) {
-    command_1.issueCommand('add-path', {}, inputPath);
+    const filePath = process.env['GITHUB_PATH'] || '';
+    if (filePath) {
+        file_command_1.issueCommand('PATH', inputPath);
+    }
+    else {
+        command_1.issueCommand('add-path', {}, inputPath);
+    }
     process.env['PATH'] = `${inputPath}${path.delimiter}${process.env['PATH']}`;
 }
 exports.addPath = addPath;
@@ -36021,6 +36061,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const os = __importStar(__webpack_require__(87));
+const utils_1 = __webpack_require__(420);
 /**
  * Commands
  *
@@ -36074,28 +36115,14 @@ class Command {
         return cmdStr;
     }
 }
-/**
- * Sanitizes an input into a string so it can be passed into issueCommand safely
- * @param input input to sanitize into a string
- */
-function toCommandValue(input) {
-    if (input === null || input === undefined) {
-        return '';
-    }
-    else if (typeof input === 'string' || input instanceof String) {
-        return input;
-    }
-    return JSON.stringify(input);
-}
-exports.toCommandValue = toCommandValue;
 function escapeData(s) {
-    return toCommandValue(s)
+    return utils_1.toCommandValue(s)
         .replace(/%/g, '%25')
         .replace(/\r/g, '%0D')
         .replace(/\n/g, '%0A');
 }
 function escapeProperty(s) {
-    return toCommandValue(s)
+    return utils_1.toCommandValue(s)
         .replace(/%/g, '%25')
         .replace(/\r/g, '%0D')
         .replace(/\n/g, '%0A')
@@ -39932,11 +39959,11 @@ var String = (function () {
     String.parsePattern = function (match, arg) {
         switch (match) {
             case 'L': {
-                arg = arg.toLowerCase();
+                arg = arg.toLocaleLowerCase();
                 return arg;
             }
             case 'U': {
-                arg = arg.toUpperCase();
+                arg = arg.toLocaleUpperCase();
                 return arg;
             }
             case 'd': {
@@ -39978,6 +40005,12 @@ var String = (function () {
                 arg = output + (parts.length > 1 ? ',' + parts[1] : '');
                 return arg;
             }
+            case 'x': {
+                return this.decimalToHexString(arg);
+            }
+            case 'X': {
+                return this.decimalToHexString(arg, true);
+            }
             default: {
                 break;
             }
@@ -39986,6 +40019,12 @@ var String = (function () {
             return String.formatNumber(arg, match);
         }
         return arg;
+    };
+    String.decimalToHexString = function (value, upperCase) {
+        if (upperCase === void 0) { upperCase = false; }
+        var parsed = parseFloat(value);
+        var hexNumber = parsed.toString(16);
+        return upperCase ? hexNumber.toLocaleUpperCase() : hexNumber;
     };
     String.getDisplayDateFromString = function (input) {
         var splitted;
@@ -40064,9 +40103,10 @@ var String = (function () {
 exports.String = String;
 var StringBuilder = (function () {
     function StringBuilder(value) {
-        if (value === void 0) { value = String.Empty; }
         this.Values = [];
-        this.Values = new Array(value);
+        if (!String.IsNullOrWhiteSpace(value)) {
+            this.Values = new Array(value);
+        }
     }
     StringBuilder.prototype.ToString = function () {
         return this.Values.join('');
@@ -40074,12 +40114,22 @@ var StringBuilder = (function () {
     StringBuilder.prototype.Append = function (value) {
         this.Values.push(value);
     };
+    StringBuilder.prototype.AppendLine = function (value) {
+        this.Values.push('\r\n' + value);
+    };
     StringBuilder.prototype.AppendFormat = function (format) {
         var args = [];
         for (var _i = 1; _i < arguments.length; _i++) {
             args[_i - 1] = arguments[_i];
         }
         this.Values.push(String.Format.apply(String, __spreadArrays([format], args)));
+    };
+    StringBuilder.prototype.AppendLineFormat = function (format) {
+        var args = [];
+        for (var _i = 1; _i < arguments.length; _i++) {
+            args[_i - 1] = arguments[_i];
+        }
+        this.Values.push("\r\n" + String.Format.apply(String, __spreadArrays([format], args)));
     };
     StringBuilder.prototype.Clear = function () {
         this.Values = [];
@@ -42925,7 +42975,41 @@ exports.unzip = (req, res) => {
 /***/ }),
 /* 922 */,
 /* 923 */,
-/* 924 */,
+/* 924 */
+/***/ (function(__unusedmodule, exports, __webpack_require__) {
+
+"use strict";
+
+// For internal use, subject to change.
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+    result["default"] = mod;
+    return result;
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+// We use any as a valid input type
+/* eslint-disable @typescript-eslint/no-explicit-any */
+const fs = __importStar(__webpack_require__(747));
+const os = __importStar(__webpack_require__(87));
+const utils_1 = __webpack_require__(420);
+function issueCommand(command, message) {
+    const filePath = process.env[`GITHUB_${command}`];
+    if (!filePath) {
+        throw new Error(`Unable to find environment variable for file command ${command}`);
+    }
+    if (!fs.existsSync(filePath)) {
+        throw new Error(`Missing file at path: ${filePath}`);
+    }
+    fs.appendFileSync(filePath, `${utils_1.toCommandValue(message)}${os.EOL}`, {
+        encoding: 'utf8'
+    });
+}
+exports.issueCommand = issueCommand;
+//# sourceMappingURL=file-command.js.map
+
+/***/ }),
 /* 925 */,
 /* 926 */
 /***/ (function(module, __unusedexports, __webpack_require__) {
