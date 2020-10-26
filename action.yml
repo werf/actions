@@ -1,4 +1,4 @@
-name: werf converge
+name: werf
 author: 'Flant'
 description: 'Prepare the environment and perform building, publishing and deployment with werf'
 branding:
