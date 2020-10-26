@@ -14,7 +14,9 @@ This action set allows you to organize CI/CD with GitHub Actions and [werf](http
 - [werf/actions/run](https://github.com/werf/actions/tree/master/run)
 - [werf/actions/cleanup](https://github.com/werf/actions/tree/master/cleanup)
 
-Each action combines all the necessary steps in itself and logic may be divided into __environment setup__ and launching the corresponding command.
+Each action combines all the necessary steps in itself and logic may be divided into environment setup and launching the corresponding command. 
+
+**Ready-to-use GitHub Actions Workflows** for different CI/CD workflows are available [here](https://werf.io/documentation/advanced/ci_cd/github_actions.html#complete-set-of-configurations-for-ready-made-workflows).
 
 > Also, there is another action — [werf/actions/install](https://github.com/werf/actions/tree/master/install). With this action a user can just install werf and use binary within job steps for own purposes
 
