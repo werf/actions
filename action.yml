@@ -1,6 +1,6 @@
 name: werf
 author: 'Flant'
-description: 'Use werf CI/CD tool with GitHub Actions to build your Docker images, push them to the registry, deploy to Kubernetes, and more!'
+description: 'Use werf CI/CD tool and GitHub Actions to build Docker images, push them to the registry, deploy to Kubernetes, and more!'
 branding:
   color: blue
   icon: anchor
