@@ -1,6 +1,6 @@
 name: werf
 author: 'Flant'
-description: 'Prepare the environment and perform building, publishing and deployment with werf'
+description: 'Use werf CI/CD tool with GitHub Actions to build your Docker images, push them to the registry, deploy to Kubernetes, and more!'
 branding:
   color: blue
   icon: anchor
