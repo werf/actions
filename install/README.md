@@ -58,7 +58,7 @@ werf:
       run: |
         KUBECONFIG=$(mktemp -d)/config
         base64 -d <(printf "%s" $KUBE_CONFIG_BASE64_DATA) > $KUBECONFIG
-        echo ::set-env name=KUBECONFIG::$KUBECONFIG
+        echo KUBECONFIG=$KUBECONFIG >> $GITHUB_ENV
       env:
         KUBE_CONFIG_BASE64_DATA: ${{ secrets.KUBE_CONFIG_BASE64_DATA }}
   
