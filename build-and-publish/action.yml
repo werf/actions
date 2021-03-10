@@ -5,10 +5,6 @@ branding:
   color: blue
   icon: anchor
 inputs:
-  group:
-    description: 'The MAJOR.MINOR version'
-    default: '1.1'
-    required: false
   channel:
     description: 'The one of the following channel: alpha, beta, ea, stable, rock-solid'
     default: 'alpha'

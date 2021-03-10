@@ -43866,9 +43866,9 @@ const tmp = __importStar(__webpack_require__(801));
 const dotenv = __importStar(__webpack_require__(972));
 const WERF_API_GET_CHANNEL_VERSION_URL_METHOD = 'https://werf.io/api/getChannelVersionURL';
 const WERF_API_GET_VERSION_URL_METHOD = 'https://werf.io/api/getVersionURL';
+const MAJOR_MINOR_GROUP = '1.1';
 class Manager {
     constructor() {
-        this.group = core.getInput('group').trim();
         this.channel = core.getInput('channel').trim();
         this.version = core.getInput('version').trim();
         if (process.platform.toString() === 'win32') {
@@ -43950,7 +43950,7 @@ class Manager {
                 else {
                     url = WERF_API_GET_CHANNEL_VERSION_URL_METHOD;
                     query = {
-                        group: this.group,
+                        group: MAJOR_MINOR_GROUP,
                         channel: this.channel,
                         os: this.os,
                         arch: this.arch

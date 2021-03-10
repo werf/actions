@@ -10,21 +10,20 @@ The action combines all the necessary steps in itself and logic may be divided i
 ### werf binary setup
  
 By default, all actions setup actual werf version for [1.1 alpha channel](https://werf.io/releases.html) (more details about channels, werf release cycle and compatibility promise [here](https://github.com/werf/werf#backward-compatibility-promise)). 
-Using `group` and `channel` inputs the user can switch the release channel.
+Using the `channel` input the user can switch the release channel.
 
 > This is recommended approach to be up-to-date and to use actual werf version without changing configurations
   
 ```yaml
-- uses: werf/actions/cleanup@master
+- uses: werf/actions/cleanup@v1.1
   with:
-    group: 1.1
     channel: alpha
 ```
   
 Withal, it is not necessary to work within release channels, and the user might specify certain werf version with `version` input.
 
 ```yaml
-- uses: werf/actions/cleanup@master
+- uses: werf/actions/cleanup@v1.1
   with:
     version: v1.1.16
 ```
@@ -38,7 +37,7 @@ The _kubeconfig_ may be used for deployment, cleanup, distributed locks and cach
 * Pass secret with `kube-config-base64-data` input:
  
   ```yaml
-  - uses: werf/actions/cleanup@master
+  - uses: werf/actions/cleanup@v1.1
     with:
       kube-config-base64-data: ${{ secrets.KUBE_CONFIG_BASE64_DATA }}
   ```
@@ -56,7 +55,7 @@ By default, action will use the token provided to your workflow.
 Any werf option can be defined with environment variables:
 
 ```yaml
-- uses: werf/actions/cleanup@master
+- uses: werf/actions/cleanup@v1.1
   env:
     WERF_LOG_VERBOSE: "on"
 ```
@@ -64,10 +63,6 @@ Any werf option can be defined with environment variables:
 ## Inputs
 
 ```yaml
-group:
-  description: 'The MAJOR.MINOR version'
-  default: '1.1'
-  required: false
 channel:
   description: 'The one of the following channel: alpha, beta, ea, stable, rock-solid'
   default: 'alpha'
@@ -99,7 +94,7 @@ cleanup:
       run: git fetch --prune --unshallow
 
     - name: Cleanup
-      uses: werf/actions/cleanup@master
+      uses: werf/actions/cleanup@v1.1
       with:
         kube-config-base64-data: ${{ secrets.KUBE_CONFIG_BASE64_DATA }}
 ```

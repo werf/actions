@@ -4,21 +4,20 @@
 ___
  
 By default, all actions setup actual werf version for [1.1 alpha channel](https://werf.io/releases.html) (more details about channels, werf release cycle and compatibility promise [here](https://github.com/werf/werf#backward-compatibility-promise)). 
-Using `group` and `channel` inputs the user can switch the release channel.
+Using the `channel` input the user can switch the release channel.
 
 > This is recommended approach to be up-to-date and to use actual werf version without changing configurations
   
 ```yaml
-- uses: werf/actions/install@master
+- uses: werf/actions/install@v1.1
   with:
-    group: 1.1
     channel: alpha
 ```
   
 Withal, it is not necessary to work within release channels, and the user might specify certain werf version with `version` input.
 
 ```yaml
-- uses: werf/actions/install@master
+- uses: werf/actions/install@v1.1
   with:
     version: v1.1.16
 ```
@@ -26,10 +25,6 @@ Withal, it is not necessary to work within release channels, and the user might 
 ## Inputs
 
 ```yaml
-group:
-  description: 'The MAJOR.MINOR version'
-  default: '1.1'
-  required: false
 channel:
   description: 'The one of the following channel: alpha, beta, ea, stable, rock-solid'
   default: 'alpha'
@@ -48,10 +43,10 @@ werf:
   steps:
   
     - name: Checkout code  
-      uses: actions/checkout@master
+      uses: actions/checkout@v1.1
 
     - name: Install werf CLI  
-      uses: werf/actions/install@master
+      uses: werf/actions/install@v1.1
     
     # for deploy and distributed locks
     - name: Create kube config
