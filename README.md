@@ -6,11 +6,8 @@ ___
 This action set allows you to organize CI/CD with GitHub Actions and [werf](https://github.com/werf/werf). The set consists of several independent and complex actions:
 
 - [werf/actions/converge](https://github.com/werf/actions/tree/master/converge)
-- [werf/actions/build-and-publish](https://github.com/werf/actions/tree/master/build-and-publish)
-- [werf/actions/build](https://github.com/werf/actions/tree/master/build)
-- [werf/actions/publish](https://github.com/werf/actions/tree/master/build)
-- [werf/actions/deploy](https://github.com/werf/actions/tree/master/deploy)
 - [werf/actions/dismiss](https://github.com/werf/actions/tree/master/dismiss)
+- [werf/actions/build](https://github.com/werf/actions/tree/master/build)
 - [werf/actions/run](https://github.com/werf/actions/tree/master/run)
 - [werf/actions/cleanup](https://github.com/werf/actions/tree/master/cleanup)
 
@@ -30,7 +27,7 @@ Using the `channel` input the user can switch the release channel.
 > This is recommended approach to be up-to-date and to use actual werf version without changing configurations
   
 ```yaml
-- uses: werf/actions/converge@v1.1
+- uses: werf/actions/converge@v1.2
   with:
     channel: alpha
 ```
@@ -38,9 +35,9 @@ Using the `channel` input the user can switch the release channel.
 Withal, it is not necessary to work within release channels, and the user might specify certain werf version with `version` input.
 
 ```yaml
-- uses: werf/actions/converge@v1.1
+- uses: werf/actions/converge@v1.2
   with:
-    version: v1.1.23
+    version: v1.2.9
 ```
 
 ### kubeconfig setup (*optional*)
@@ -52,7 +49,7 @@ The _kubeconfig_ may be used for deployment, cleanup, distributed locks and cach
 * Pass secret with `kube-config-base64-data` input:
  
   ```yaml
-  - uses: werf/actions/build-and-publish@v1.1
+  - uses: werf/actions/converge@v1.2
     with:
       kube-config-base64-data: ${{ secrets.KUBE_CONFIG_BASE64_DATA }}
   ```
@@ -70,11 +67,9 @@ By default, action will use the token provided to your workflow.
 Any werf option can be defined with environment variables:
 
 ```yaml
-- uses: werf/actions/build-and-publish@v1.1
+- uses: werf/actions/converge@v1.2
   env:
     WERF_LOG_VERBOSE: "on"
-    WERF_TAG_CUSTOM_TAG1: tag1
-    WERF_TAG_CUSTOM_TAG2: tag2
 ```
 
 ## Examples
@@ -93,43 +88,7 @@ converge:
         fetch-depth: 0
 
     - name: Converge
-      uses: werf/actions/converge@v1.1
-      with:
-        env: production
-        kube-config-base64-data: ${{ secrets.KUBE_CONFIG_BASE64_DATA }}
-```
-
-### build, publish and deploy
-
-```yaml
-build-and-publish:
-  name: Build and Publish
-  runs-on: ubuntu-latest
-  steps:
-
-    - name: Checkout code
-      uses: actions/checkout@v2
-      with:
-        fetch-depth: 0
-
-    - name: Build and Publish
-      uses: werf/actions/build-and-publish@v1.1
-      with:
-        kube-config-base64-data: ${{ secrets.KUBE_CONFIG_BASE64_DATA }}
-
-deploy:
-  name: Deploy
-  needs: build-and-publish
-  runs-on: ubuntu-latest
-  steps:
-
-    - name: Checkout code
-      uses: actions/checkout@v2
-      with:
-        fetch-depth: 0
-
-    - name: Deploy
-      uses: werf/actions/deploy@v1.1
+      uses: werf/actions/converge@v1.2
       with:
         env: production
         kube-config-base64-data: ${{ secrets.KUBE_CONFIG_BASE64_DATA }}
@@ -147,7 +106,7 @@ dismiss:
       uses: actions/checkout@v2
 
     - name: Dismiss
-      uses: werf/actions/dismiss@v1.1
+      uses: werf/actions/dismiss@v1.2
       with:
         kube-config-base64-data: ${{ secrets.KUBE_CONFIG_BASE64_DATA }}
         env: production
@@ -167,7 +126,7 @@ run:
         fetch-depth: 0
 
     - name: Run
-      uses: werf/actions/run@v1.1
+      uses: werf/actions/run@v1.2
       with:
         image: backend
         args: rails server
@@ -191,7 +150,7 @@ cleanup:
       run: git fetch --prune --unshallow
 
     - name: Cleanup
-      uses: werf/actions/cleanup@v1.1
+      uses: werf/actions/cleanup@v1.2
       with:
         kube-config-base64-data: ${{ secrets.KUBE_CONFIG_BASE64_DATA }}
 ```
@@ -208,7 +167,7 @@ werf:
       uses: actions/checkout@v2
 
     - name: Install werf CLI  
-      uses: werf/actions/install@v1.1
+      uses: werf/actions/install@v1.2
     
     # for deploy and distributed locks
     - name: Create kube config
@@ -222,8 +181,8 @@ werf:
     - name: Run werf commands
       run: |
         source $(werf ci-env github --as-file)
-        werf build-and-publish
-        werf deploy
+        werf render
+        werf converge
       env:
         GITHUB_TOKEN: ${{ github.token }}
         WERF_ENV: production

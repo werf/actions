@@ -4265,9 +4265,9 @@ module.exports = gt
 
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.MINOR = exports.MAJOR = exports.MAJOR_MINOR_GROUP = void 0;
-exports.MAJOR_MINOR_GROUP = '1.1';
+exports.MAJOR_MINOR_GROUP = '1.2';
 exports.MAJOR = 1;
-exports.MINOR = 1;
+exports.MINOR = 2;
 
 
 /***/ }),
