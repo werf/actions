@@ -23,9 +23,6 @@ export async function PrepareEnvironAndRunWerfCommand(
     const m = new Manager()
     await m.Install()
 
-    const versionOutput = await m.GetOutput(['version'])
-    ValidateWerfVersion(versionOutput)
-
     process.env.GITHUB_TOKEN =
       process.env.GITHUB_TOKEN || core.getInput('github-token')
     await m.PerformCIEnv()

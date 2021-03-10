@@ -10,6 +10,7 @@ import * as crypto from 'crypto'
 import * as tmp from 'tmp'
 import * as dotenv from 'dotenv'
 import * as werf from './werf'
+import {ValidateWerfVersion} from './common'
 
 const WERF_API_GET_CHANNEL_VERSION_URL_METHOD =
   'https://werf.io/api/getChannelVersionURL'
@@ -26,6 +27,10 @@ export class Manager {
   constructor() {
     this.channel = core.getInput('channel').trim()
     this.version = core.getInput('version').trim()
+
+    if (this.version !== '') {
+      ValidateWerfVersion(this.version)
+    }
 
     if (process.platform.toString() === 'win32') {
       this.os = 'windows'

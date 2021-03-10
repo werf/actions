@@ -11479,8 +11479,6 @@ function PrepareEnvironAndRunWerfCommand(args) {
             }
             const m = new manager_1.Manager();
             yield m.Install();
-            const versionOutput = yield m.GetOutput(['version']);
-            ValidateWerfVersion(versionOutput);
             process.env.GITHUB_TOKEN =
                 process.env.GITHUB_TOKEN || core.getInput('github-token');
             yield m.PerformCIEnv();
@@ -43809,12 +43807,16 @@ const crypto = __importStar(__webpack_require__(417));
 const tmp = __importStar(__webpack_require__(801));
 const dotenv = __importStar(__webpack_require__(972));
 const werf = __importStar(__webpack_require__(290));
+const common_1 = __webpack_require__(428);
 const WERF_API_GET_CHANNEL_VERSION_URL_METHOD = 'https://werf.io/api/getChannelVersionURL';
 const WERF_API_GET_VERSION_URL_METHOD = 'https://werf.io/api/getVersionURL';
 class Manager {
     constructor() {
         this.channel = core.getInput('channel').trim();
         this.version = core.getInput('version').trim();
+        if (this.version !== '') {
+            common_1.ValidateWerfVersion(this.version);
+        }
         if (process.platform.toString() === 'win32') {
             this.os = 'windows';
         }
