@@ -43,7 +43,7 @@ werf:
   steps:
   
     - name: Checkout code  
-      uses: actions/checkout@v1.1
+      uses: actions/checkout@v2
 
     - name: Install werf CLI  
       uses: werf/actions/install@v1.1
