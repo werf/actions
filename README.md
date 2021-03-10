@@ -13,7 +13,7 @@ This action set allows you to organize CI/CD with GitHub Actions and [werf](http
 
 Each action combines all the necessary steps in itself and logic may be divided into environment setup and launching the corresponding command. 
 
-**Ready-to-use GitHub Actions Workflows** for different CI/CD workflows are available [here](https://werf.io/documentation/advanced/ci_cd/github_actions.html#complete-set-of-configurations-for-ready-made-workflows).
+**Ready-to-use GitHub Actions Workflows** for different CI/CD workflows are available [here](https://werf.io/v1.2-alpha/documentation/advanced/ci_cd/github_actions.html#complete-set-of-configurations-for-ready-made-workflows).
 
 > Also, there is another action — [werf/actions/install](https://github.com/werf/actions/tree/master/install). With this action a user can just install werf and use binary within job steps for own purposes
 
@@ -97,7 +97,7 @@ If necessary, the user can define an arbitrary container registry using the `WER
     WERF_REPO_CONTAINER_REGISTRY: "gcr"
 ```
 
-To learn how to work with the different container registries, see the corresponding [article in the werf documentation](https://werf.io/documentation/advanced/supported_container_registries.html).
+To learn how to work with the different container registries, see the corresponding [article in the werf documentation](https://werf.io/v1.2-alpha/documentation/advanced/supported_container_registries.html).
 
 ## Examples
 
