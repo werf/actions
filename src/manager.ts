@@ -9,11 +9,11 @@ import {String} from 'typescript-string-operations'
 import * as crypto from 'crypto'
 import * as tmp from 'tmp'
 import * as dotenv from 'dotenv'
+import * as werf from './werf'
 
 const WERF_API_GET_CHANNEL_VERSION_URL_METHOD =
   'https://werf.io/api/getChannelVersionURL'
 const WERF_API_GET_VERSION_URL_METHOD = 'https://werf.io/api/getVersionURL'
-const MAJOR_MINOR_GROUP = '1.1'
 
 export class Manager {
   private readonly channel: string
@@ -112,7 +112,7 @@ export class Manager {
       } else {
         url = WERF_API_GET_CHANNEL_VERSION_URL_METHOD
         query = {
-          group: MAJOR_MINOR_GROUP,
+          group: werf.MAJOR_MINOR_GROUP,
           channel: this.channel,
           os: this.os,
           arch: this.arch
