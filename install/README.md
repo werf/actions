@@ -9,7 +9,7 @@ Using the `channel` input the user can switch the release channel.
 > This is recommended approach to be up-to-date and to use actual werf version without changing configurations
   
 ```yaml
-- uses: werf/actions/install@v1.1
+- uses: werf/actions/install@v1.2
   with:
     channel: alpha
 ```
@@ -17,9 +17,9 @@ Using the `channel` input the user can switch the release channel.
 Withal, it is not necessary to work within release channels, and the user might specify certain werf version with `version` input.
 
 ```yaml
-- uses: werf/actions/install@v1.1
+- uses: werf/actions/install@v1.2
   with:
-    version: v1.1.23
+    version: v1.2.9
 ```
 
 ## Inputs
@@ -46,7 +46,7 @@ werf:
       uses: actions/checkout@v2
 
     - name: Install werf CLI  
-      uses: werf/actions/install@v1.1
+      uses: werf/actions/install@v1.2
     
     # for deploy and distributed locks
     - name: Create kube config
@@ -60,8 +60,8 @@ werf:
     - name: Run werf commands
       run: |
         source $(werf ci-env github --as-file)
-        werf build-and-publish
-        werf deploy
+        werf render
+        werf converge
       env:
         GITHUB_TOKEN: ${{ github.token }}
         WERF_ENV: production
