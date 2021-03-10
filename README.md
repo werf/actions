@@ -17,6 +17,18 @@ Each action combines all the necessary steps in itself and logic may be divided 
 
 > Also, there is another action — [werf/actions/install](https://github.com/werf/actions/tree/master/install). With this action a user can just install werf and use binary within job steps for own purposes
 
+## Versioning
+
+When using actions, select the version corresponding to the `MAJOR.MINOR` version of werf:
+
+```yaml
+# run converge with actual werf version for 1.1 alpha channel
+- uses: werf/actions/converge@v1.1
+
+# run converge with actual werf version for 1.2 alpha channel
+- uses: werf/actions/converge@v1.2
+```
+
 ## Environment setup in details
 
 ### werf binary setup
