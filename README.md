@@ -21,7 +21,7 @@ Each action combines all the necessary steps in itself and logic may be divided 
 
 ### werf binary setup
 
-By default, all actions setup actual werf version for [1.2 alpha channel](https://werf.io/releases.html) (more details about channels, werf release cycle and compatibility promise [here](https://github.com/werf/werf#backward-compatibility-promise)). 
+By default, all actions setup actual werf version for [1.2 alpha channel](https://werf.io/releases.html) (more details about channels, werf release cycle and compatibility promise [here](https://werf.io/installation.html#all-changes-in-werf-go-through-all-stability-channels)). 
 Using the `channel` input the user can switch the release channel.
 
 > This is recommended approach to be up-to-date and to use actual werf version without changing configurations
@@ -71,6 +71,21 @@ Any werf option can be defined with environment variables:
   env:
     WERF_LOG_VERBOSE: "on"
 ```
+
+## Working with container registry
+
+Due to the fact that the new GitHub container registry (`ghcr.io`) does not currently support removal, all actions default to the old one (`docker.pkg.github.com`).
+
+If necessary, the user can define an arbitrary container registry using the `WERF_REPO` and `WERF_REPO_CONTAINER_REGISTRY` environment variables.
+
+```yaml
+- uses: werf/actions/converge@v1.2
+  env:
+    WERF_REPO: "gcr.io/company/app"
+    WERF_REPO_CONTAINER_REGISTRY: "gcr"
+```
+
+To learn how to work with the different container registries, see the corresponding [article in the werf documentation](https://werf.io/documentation/advanced/supported_container_registries.html).
 
 ## Examples
 
