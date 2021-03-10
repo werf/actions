@@ -72,6 +72,21 @@ Any werf option can be defined with environment variables:
     WERF_LOG_VERBOSE: "on"
 ```
 
+## Working with container registry
+
+Due to the fact that the new GitHub container registry (`ghcr.io`) does not currently support removal, all actions default to the old one (`docker.pkg.github.com`).
+
+If necessary, the user can define an arbitrary container registry using the `WERF_REPO` and `WERF_REPO_CONTAINER_REGISTRY` environment variables.
+
+```yaml
+- uses: werf/actions/converge@v1.2
+  env:
+    WERF_REPO: "gcr.io/company/app"
+    WERF_REPO_CONTAINER_REGISTRY: "gcr"
+```
+
+To learn how to work with the different container registries, see the corresponding [article in the werf documentation](https://werf.io/documentation/advanced/supported_container_registries.html).
+
 ## Examples
 
 ### converge
