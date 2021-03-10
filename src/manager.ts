@@ -9,13 +9,13 @@ import {String} from 'typescript-string-operations'
 import * as crypto from 'crypto'
 import * as tmp from 'tmp'
 import * as dotenv from 'dotenv'
+import * as werf from './werf'
 
 const WERF_API_GET_CHANNEL_VERSION_URL_METHOD =
   'https://werf.io/api/getChannelVersionURL'
 const WERF_API_GET_VERSION_URL_METHOD = 'https://werf.io/api/getVersionURL'
 
 export class Manager {
-  private readonly group: string
   private readonly channel: string
   private readonly version: string
   private readonly os: string
@@ -24,7 +24,6 @@ export class Manager {
   private binaryPath: string | undefined
 
   constructor() {
-    this.group = core.getInput('group').trim()
     this.channel = core.getInput('channel').trim()
     this.version = core.getInput('version').trim()
 
@@ -113,7 +112,7 @@ export class Manager {
       } else {
         url = WERF_API_GET_CHANNEL_VERSION_URL_METHOD
         query = {
-          group: this.group,
+          group: werf.MAJOR_MINOR_GROUP,
           channel: this.channel,
           os: this.os,
           arch: this.arch

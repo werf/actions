@@ -5,6 +5,7 @@ import * as semver from 'semver'
 import {context} from '@actions/github'
 import {String} from 'typescript-string-operations'
 import {Manager} from './manager'
+import * as werf from './werf'
 
 const minimalWerfVersion = 'v1.1.17'
 
@@ -66,6 +67,16 @@ export function ProcessGitHubContext(): void {
 export function ValidateWerfVersion(version: string): void {
   const ver = semver.coerce(version)
   if (ver) {
+    if (ver.major !== werf.MAJOR || ver.minor !== werf.MINOR) {
+      throw new Error(
+        String.Format(
+          'The arbitrary version ({0}) must be within the MAJOR.MINOR ({1})',
+          version.trim(),
+          werf.MAJOR_MINOR_GROUP
+        )
+      )
+    }
+
     if (semver.gte(ver, minimalWerfVersion)) {
       return
     }
@@ -73,7 +84,7 @@ export function ValidateWerfVersion(version: string): void {
 
   throw new Error(
     String.Format(
-      'werf version {0} is not supported (expected version should be equal or greater than {1})',
+      'werf version {0} is not supported (expected version must be equal or greater than {1})',
       version.trim(),
       minimalWerfVersion
     )

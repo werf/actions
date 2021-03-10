@@ -4118,7 +4118,19 @@ module.exports = gt
 
 
 /***/ }),
-/* 290 */,
+/* 290 */
+/***/ (function(__unusedmodule, exports) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.MINOR = exports.MAJOR = exports.MAJOR_MINOR_GROUP = void 0;
+exports.MAJOR_MINOR_GROUP = '1.1';
+exports.MAJOR = 1;
+exports.MINOR = 1;
+
+
+/***/ }),
 /* 291 */,
 /* 292 */,
 /* 293 */
@@ -11455,6 +11467,7 @@ const semver = __importStar(__webpack_require__(232));
 const github_1 = __webpack_require__(127);
 const typescript_string_operations_1 = __webpack_require__(863);
 const manager_1 = __webpack_require__(965);
+const werf = __importStar(__webpack_require__(290));
 const minimalWerfVersion = 'v1.1.17';
 function PrepareEnvironAndRunWerfCommand(args) {
     return __awaiter(this, void 0, void 0, function* () {
@@ -11507,11 +11520,14 @@ exports.ProcessGitHubContext = ProcessGitHubContext;
 function ValidateWerfVersion(version) {
     const ver = semver.coerce(version);
     if (ver) {
+        if (ver.major !== werf.MAJOR || ver.minor !== werf.MINOR) {
+            throw new Error(typescript_string_operations_1.String.Format('The arbitrary version ({0}) must be within the MAJOR.MINOR ({1})', version.trim(), werf.MAJOR_MINOR_GROUP));
+        }
         if (semver.gte(ver, minimalWerfVersion)) {
             return;
         }
     }
-    throw new Error(typescript_string_operations_1.String.Format('werf version {0} is not supported (expected version should be equal or greater than {1})', version.trim(), minimalWerfVersion));
+    throw new Error(typescript_string_operations_1.String.Format('werf version {0} is not supported (expected version must be equal or greater than {1})', version.trim(), minimalWerfVersion));
 }
 exports.ValidateWerfVersion = ValidateWerfVersion;
 
@@ -43792,11 +43808,11 @@ const typescript_string_operations_1 = __webpack_require__(863);
 const crypto = __importStar(__webpack_require__(417));
 const tmp = __importStar(__webpack_require__(801));
 const dotenv = __importStar(__webpack_require__(972));
+const werf = __importStar(__webpack_require__(290));
 const WERF_API_GET_CHANNEL_VERSION_URL_METHOD = 'https://werf.io/api/getChannelVersionURL';
 const WERF_API_GET_VERSION_URL_METHOD = 'https://werf.io/api/getVersionURL';
 class Manager {
     constructor() {
-        this.group = core.getInput('group').trim();
         this.channel = core.getInput('channel').trim();
         this.version = core.getInput('version').trim();
         if (process.platform.toString() === 'win32') {
@@ -43878,7 +43894,7 @@ class Manager {
                 else {
                     url = WERF_API_GET_CHANNEL_VERSION_URL_METHOD;
                     query = {
-                        group: this.group,
+                        group: werf.MAJOR_MINOR_GROUP,
                         channel: this.channel,
                         os: this.os,
                         arch: this.arch
