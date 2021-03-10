@@ -40,7 +40,7 @@ Withal, it is not necessary to work within release channels, and the user might 
 ```yaml
 - uses: werf/actions/converge@v1.1
   with:
-    version: v1.1.16
+    version: v1.1.23
 ```
 
 ### kubeconfig setup (*optional*)
