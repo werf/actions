@@ -43919,11 +43919,9 @@ class Manager {
             dotenv.config({ path: tmpFilePath });
             fs.readFile(tmpFilePath, null, function (err, contents) {
                 if (err) {
-                    console.error(err);
+                    throw err;
                 }
-                else {
-                    console.log(contents.toString());
-                }
+                console.log(contents.toString());
             });
             tmpFile.removeCallback();
         });

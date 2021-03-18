@@ -66,10 +66,10 @@ export class Manager {
 
     fs.readFile(tmpFilePath, null, function(err, contents) {
       if (err) {
-        console.error(err)
-      } else {
-        console.log(contents.toString())
+        throw err
       }
+
+      console.log(contents.toString())
     })
 
     tmpFile.removeCallback()
