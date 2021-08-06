@@ -87,7 +87,7 @@ Any werf option can be defined with environment variables:
 
 ### Default container repository
 
-By default, each action performs authorization and generates container repository address in the following format: `ghcr.io/$GITHUB_REPOSITORY/<project-from-werf.yaml>`.
+By default, each action performs authorization and generates container repository address using the following pattern: `ghcr.io/$GITHUB_REPOSITORY/<project-from-werf.yaml>`.
 
 For cleanup action you need [to create personal access token](https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token) with `read:packages` and `delete:packages` scope. It is recommended [to store the token as a secret](https://help.github.com/en/actions/configuring-and-managing-workflows/creating-and-storing-encrypted-secrets).
 
