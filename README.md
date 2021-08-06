@@ -101,7 +101,7 @@ For cleanup action you need [to create personal access token](https://docs.githu
 
 ### Custom container repository
 
-The user can use an arbitrary container repository specifying the `WERF_REPO` and `WERF_REPO_CONTAINER_REGISTRY` environment variables and perform authorization yourself. For instance, steps for GCR:
+The user can use an arbitrary container repository specifying the `WERF_REPO` and `WERF_REPO_CONTAINER_REGISTRY` environment variables and perform authorization himself. For instance, steps for GCR:
 
 ```yaml
 - name: Login to GCR
