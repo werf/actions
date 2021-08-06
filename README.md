@@ -70,9 +70,8 @@ The _kubeconfig_ may be used for deployment, cleanup, distributed locks and cach
 
 This command performs _docker login_ using `github-token`, sets up predefined variables based on GitHub Workflow context.  
  
-**Note** that `github-token` is optional in this action, and the input is there in case you need to use a non-default token.
-
-By default, action will use the token provided to your workflow.
+The `github-token` input is optional, and the input is there in case you need to use a non-default token.  
+By default, an action will use the token provided to your workflow.
 
 ## Working with werf options
 
@@ -86,18 +85,39 @@ Any werf option can be defined with environment variables:
 
 ## Working with container registry
 
-Due to the fact that the new GitHub container registry (`ghcr.io`) does not currently support removal, all actions default to the old one (`docker.pkg.github.com`).
+### Default container repository
 
-If necessary, the user can define an arbitrary container registry using the `WERF_REPO` and `WERF_REPO_CONTAINER_REGISTRY` environment variables.
+By default, each action performs authorization and generates container repository address in the following format: `ghcr.io/$GITHUB_REPOSITORY/<project-from-werf.yaml>`.
+
+For cleanup action you need [to create personal access token](https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token) with `read:packages` and `delete:packages` scope. It is recommended [to store the token as a secret](https://help.github.com/en/actions/configuring-and-managing-workflows/creating-and-storing-encrypted-secrets).
 
 ```yaml
+- uses: werf/actions/cleanup@v1.2
+  with:
+    kube-config-base64-data: ${{ secrets.KUBE_CONFIG_BASE64_DATA }}
+  env:
+    WERF_REPO_GITHUB_TOKEN: ${{ secrets.WERF_REPO_GITHUB_TOKEN }}
+```
+
+### Custom container repository
+
+The user can use an arbitrary container repository specifying the `WERF_REPO` and `WERF_REPO_CONTAINER_REGISTRY` environment variables and perform authorization yourself. For instance, steps for GCR:
+
+```yaml
+- name: Login to GCR
+  uses: docker/login-action@v1
+  with:
+    registry: gcr.io
+    username: _json_key
+    password: ${{ secrets.GCR_JSON_KEY }}
+    
 - uses: werf/actions/converge@v1.2
   env:
     WERF_REPO: "gcr.io/company/app"
     WERF_REPO_CONTAINER_REGISTRY: "gcr"
 ```
 
-To learn how to work with the different container registries, see the corresponding [article in the werf documentation](https://werf.io/v1.2-alpha/documentation/advanced/supported_container_registries.html).
+> To learn more about how to work with the different container registries, see the appropriate [article in the werf documentation](https://werf.io/v1.2-alpha/documentation/advanced/supported_container_registries.html)
 
 ## Examples
 
@@ -180,6 +200,8 @@ cleanup:
       uses: werf/actions/cleanup@v1.2
       with:
         kube-config-base64-data: ${{ secrets.KUBE_CONFIG_BASE64_DATA }}
+      env:
+        WERF_REPO_GITHUB_TOKEN: ${{ secrets.WERF_REPO_GITHUB_TOKEN }}
 ```
 
 ### install
