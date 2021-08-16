@@ -11,32 +11,32 @@ This action set allows you to organize CI/CD with GitHub Actions and [werf](http
 - [werf/actions/run](https://github.com/werf/actions/tree/master/run)
 - [werf/actions/cleanup](https://github.com/werf/actions/tree/master/cleanup)
 
-Each action combines all the necessary steps in itself and logic may be divided into environment setup and launching the corresponding command. 
+Each action combines all the necessary steps in itself, and logic may be divided into [environment setup](#environment-setup-in-details) and launching the corresponding command. 
 
-**Ready-to-use GitHub Actions Workflows** for different CI/CD workflows are available [here](https://werf.io/v1.2-alpha/documentation/advanced/ci_cd/github_actions.html#complete-set-of-configurations-for-ready-made-workflows).
+**Ready-to-use GitHub Actions Workflows** for different CI/CD workflows are available [here](https://werf.io/documentation/v1.2/advanced/ci_cd/github_actions.html#complete-set-of-configurations-for-ready-made-workflows).
 
-> Also, there is another action — [werf/actions/install](https://github.com/werf/actions/tree/master/install). With this action a user can just install werf and use binary within job steps for own purposes
+> Also, there is another action — [werf/actions/install](https://github.com/werf/actions/tree/master/install). With this action, the user can install werf and use binary within job steps for own purposes.
 
 ## Versioning
 
-When using actions, select the version corresponding to the `MAJOR.MINOR` version of werf:
+When using actions, select the version corresponding to the required `MAJOR.MINOR` version of werf:
 
 ```yaml
-# run converge with actual werf version for 1.1 alpha channel
+# Run converge using actual werf version within 1.1 alpha channel.
 - uses: werf/actions/converge@v1.1
 
-# run converge with actual werf version for 1.2 alpha channel
+# Run converge using actual werf version within 1.2 alpha channel.
 - uses: werf/actions/converge@v1.2
 ```
 
 ## Environment setup in details
 
-### werf binary setup
+### werf binary installation
 
-By default, all actions setup actual werf version for 1.2 alpha channel (more details about channels, werf release cycle and compatibility promise [here](https://werf.io/installation.html#all-changes-in-werf-go-through-all-stability-channels)). 
+By default, all actions install actual werf version within 1.2 alpha channel (more details about channels, werf release cycle and compatibility promise [here](https://werf.io/installation.html#all-changes-in-werf-go-through-all-stability-channels)). 
 Using the `channel` input the user can switch the release channel.
 
-> This is recommended approach to be up-to-date and to use actual werf version without changing configurations
+> This is recommended approach to be up-to-date and to use actual werf version without changing configurations.
   
 ```yaml
 - uses: werf/actions/converge@v1.2
@@ -52,11 +52,20 @@ Withal, it is not necessary to work within release channels, and the user might 
     version: v1.2.9
 ```
 
+### werf ci-env
+
+This is the step where an action: 
+
+- sets the defaults for werf command options based on [GitHub Workflow environment variables](https://docs.github.com/en/actions/reference/environment-variables) (e.g. container repository address to the `WERF_REPO` environment variable using the following pattern: `ghcr.io/$GITHUB_REPOSITORY/<project-from-werf.yaml>`).
+- performs _docker login_ to `ghcr.io` using the `github-token` input (only if `ghcr.io` used as `WERF_REPO`).
+
+> The `github-token` input is optional, and the input is there in case you need to use a non-default token. By default, an action will use [the token provided to your workflow](https://docs.github.com/en/actions/reference/authentication-in-a-workflow#about-the-github_token-secret).
+
 ### kubeconfig setup (*optional*)
 
 The _kubeconfig_ may be used for deployment, cleanup, distributed locks and caches. Thus, the configuration should be added before step with the action or passed as base64 encoded data with `kube-config-base64-data` input:
 
-* Prepare _kubeconfig_ (e.g. `cat ~/.kube/config | base64`) and save in GitHub Project Secrets (e.g. with name `KUBE_CONFIG_BASE64_DATA`).
+* Prepare _kubeconfig_ (e.g. `cat ~/.kube/config | base64`) and save in [GitHub Secrets](https://docs.github.com/en/actions/reference/encrypted-secrets) (e.g. with name `KUBE_CONFIG_BASE64_DATA`).
  
 * Pass secret with `kube-config-base64-data` input:
  
@@ -66,42 +75,35 @@ The _kubeconfig_ may be used for deployment, cleanup, distributed locks and cach
       kube-config-base64-data: ${{ secrets.KUBE_CONFIG_BASE64_DATA }}
   ```
 
-### werf ci-env
-
-This command performs _docker login_ using `github-token`, sets up predefined variables based on GitHub Workflow context.  
- 
-The `github-token` input is optional, and the input is there in case you need to use a non-default token.  
-By default, an action will use the token provided to your workflow.
-
 ## Working with werf options
 
-Any werf option can be defined with environment variables:
+All werf options can be defined with environment variables:
 
 ```yaml
 - uses: werf/actions/converge@v1.2
   env:
-    WERF_LOG_VERBOSE: "on"
+    WERF_LOG_VERBOSE: "on" # The same as using the option --log-verbose=on.
 ```
 
 ## Working with container registry
 
 ### Default container repository
 
-By default, each action performs authorization and generates container repository address using the following pattern: `ghcr.io/$GITHUB_REPOSITORY/<project-from-werf.yaml>`.
+An action generates the default container repository address and performs _docker login_ to the registry within [werf ci-env step](#werf-ci-env).
 
-For cleanup action you need [to create personal access token](https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token) with `read:packages` and `delete:packages` scope. It is recommended [to store the token as a secret](https://help.github.com/en/actions/configuring-and-managing-workflows/creating-and-storing-encrypted-secrets).
+For cleanup action, the user needs [to create personal access token](https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token) with `read:packages` and `delete:packages` scope and uses it as the `WERF_REPO_GITHUB_TOKEN` environment variable or the `github-token` input. It is recommended [to store the token as a secret](https://help.github.com/en/actions/configuring-and-managing-workflows/creating-and-storing-encrypted-secrets).
 
 ```yaml
 - uses: werf/actions/cleanup@v1.2
   with:
     kube-config-base64-data: ${{ secrets.KUBE_CONFIG_BASE64_DATA }}
   env:
-    WERF_REPO_GITHUB_TOKEN: ${{ secrets.WERF_REPO_GITHUB_TOKEN }}
+    WERF_REPO_GITHUB_TOKEN: ${{ secrets.WERF_CLEANUP_PAM }}
 ```
 
 ### Custom container repository
 
-The user can use an arbitrary container repository specifying the `WERF_REPO` and `WERF_REPO_CONTAINER_REGISTRY` environment variables and perform authorization himself. For instance, steps for GCR:
+An arbitrary container repository can be specified with the `WERF_REPO` and `WERF_REPO_CONTAINER_REGISTRY` environment variables. For instance, steps for GCR:
 
 ```yaml
 - name: Login to GCR
@@ -117,7 +119,7 @@ The user can use an arbitrary container repository specifying the `WERF_REPO` an
     WERF_REPO_CONTAINER_REGISTRY: "gcr"
 ```
 
-> To learn more about how to work with the different container registries, see the appropriate [article in the werf documentation](https://werf.io/v1.2-alpha/documentation/advanced/supported_container_registries.html)
+> To learn more about how to work with the different container registries, see the appropriate [article in the werf documentation](https://werf.io/documentation/v1.2/advanced/supported_container_registries.html).
 
 ## Examples
 
@@ -201,7 +203,7 @@ cleanup:
       with:
         kube-config-base64-data: ${{ secrets.KUBE_CONFIG_BASE64_DATA }}
       env:
-        WERF_REPO_GITHUB_TOKEN: ${{ secrets.WERF_REPO_GITHUB_TOKEN }}
+        WERF_REPO_GITHUB_TOKEN: ${{ secrets.WERF_CLEANUP_PAM }}
 ```
 
 ### install
@@ -218,7 +220,7 @@ werf:
     - name: Install werf CLI  
       uses: werf/actions/install@v1.2
     
-    # for deploy and distributed locks
+    # For deploy and distributed locks.
     - name: Create kube config
       run: |
         KUBECONFIG=$(mktemp -d)/config

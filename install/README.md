@@ -48,7 +48,7 @@ werf:
     - name: Install werf CLI  
       uses: werf/actions/install@v1.2
     
-    # for deploy and distributed locks
+    # For deploy and distributed locks.
     - name: Create kube config
       run: |
         KUBECONFIG=$(mktemp -d)/config

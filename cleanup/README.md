@@ -43,5 +43,5 @@ cleanup:
       with:
         kube-config-base64-data: ${{ secrets.KUBE_CONFIG_BASE64_DATA }}
       env:
-        WERF_REPO_GITHUB_TOKEN: ${{ secrets.WERF_REPO_GITHUB_TOKEN }}
+        WERF_REPO_GITHUB_TOKEN: ${{ secrets.WERF_CLEANUP_PAM }}
 ```
