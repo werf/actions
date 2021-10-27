@@ -38,6 +38,6 @@ jobs:
       - name: Install
         uses: ./install
         with:
-          version: v1.1.23+fix49
+          version: v1.1.23+fix50
 
       - run: werf version
