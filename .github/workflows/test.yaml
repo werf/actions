@@ -1,0 +1,43 @@
+name: Test
+on:
+  push:
+
+jobs:
+  channel:
+    name: By channel
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macOS-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Install
+        uses: ./install
+
+      - run: werf version
+
+  version:
+    name: By version
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macOS-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Install
+        uses: ./install
+        with:
+          version: v1.2.35
+
+      - run: werf version
