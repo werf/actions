@@ -12,9 +12,9 @@ import * as dotenv from 'dotenv'
 import * as werf from './werf'
 import {ValidateWerfVersion} from './common'
 
-const WERF_API_GET_CHANNEL_VERSION_URL_METHOD =
-  'https://werf.io/api/getChannelVersionURL'
-const WERF_API_GET_VERSION_URL_METHOD = 'https://werf.io/api/getVersionURL'
+const WERF_TUF_SERVER_URL = 'https://tuf.werf.io'
+const CACHE_TOOL_NAME = 'werf'
+const CACHE_TOOL_DIR = 'werf-tools'
 
 export class Manager {
   private readonly channel: string
@@ -32,24 +32,44 @@ export class Manager {
       ValidateWerfVersion(this.version)
     }
 
-    if (process.platform.toString() === 'win32') {
-      this.os = 'windows'
-    } else {
-      this.os = process.platform.toString()
+    const platform = process.platform.toString()
+    switch (platform) {
+      case 'linux':
+      case 'darwin':
+        this.os = platform
+        break
+      case 'win32':
+        this.os = 'windows'
+        break
+      default:
+        throw new Error(String.Format(`The platform ${platform} not supported`))
     }
 
-    this.arch = process.arch
+    const arch = process.arch
+    switch (arch) {
+      case 'x64':
+        this.arch = 'amd64'
+        break
+      case 'arm64':
+        this.arch = 'arm64'
+        break
+      default:
+        throw new Error(String.Format(`The architecture ${arch} not supported`))
+    }
   }
 
   public async Install(): Promise<void> {
     const actualBinaryUrl = await this._getActualBinaryUrl()
 
+    const binaryName = actualBinaryUrl.substring(
+      actualBinaryUrl.lastIndexOf('/') + 1
+    )
     const cachedPath = cache.find(
-      'werf',
+      CACHE_TOOL_NAME,
       Manager._toolVersionCacheID(actualBinaryUrl)
     )
     if (cachedPath) {
-      this.binaryPath = path.join(cachedPath, 'werf')
+      this.binaryPath = path.join(cachedPath, binaryName)
     } else {
       this.binaryPath = await this._downloadAndCache(actualBinaryUrl)
     }
@@ -95,35 +115,29 @@ export class Manager {
   }
 
   private async _getActualBinaryUrl(): Promise<string> {
+    if (this.version !== '') {
+      const version = this.version.slice('v'.length)
+      return this._constructReleaseUrl(version)
+    }
+
+    const url = `${WERF_TUF_SERVER_URL}/targets/channels/${werf.MAJOR_MINOR_GROUP}/${this.channel}`
     try {
-      let url: string
-      let query: {}
-
-      if (this.version !== '') {
-        url = WERF_API_GET_VERSION_URL_METHOD
-        query = {
-          version: this.version,
-          os: this.os,
-          arch: this.arch
-        }
-      } else {
-        url = WERF_API_GET_CHANNEL_VERSION_URL_METHOD
-        query = {
-          group: werf.MAJOR_MINOR_GROUP,
-          channel: this.channel,
-          os: this.os,
-          arch: this.arch
-        }
-      }
-
-      const resp = await request.get(url).query(query)
-
-      return resp.body.data.toString()
+      const resp = await request
+        .get(url)
+        .buffer(true)
+        .parse(request.parse['application/octet-stream'])
+      const version = resp.body.toString().trim()
+      return this._constructReleaseUrl(version)
     } catch (err) {
       if (err.response && err.response.error) {
         let errMessage = err.response.error.message
         if (err.response.text) {
-          errMessage = String.Format('{0}\n{1}', errMessage, err.response.text)
+          errMessage = String.Format(
+            '{0}: {1}\n{2}',
+            url,
+            errMessage,
+            err.response.text
+          )
         }
 
         throw Error(errMessage)
@@ -133,19 +147,32 @@ export class Manager {
     }
   }
 
+  private _constructReleaseUrl(version: string): string {
+    let ext = ''
+    if (this.os === 'windows') {
+      ext = '.exe'
+    }
+
+    return String.Format(
+      '{0}/targets/releases/{1}/{2}-{3}/bin/werf{4}',
+      WERF_TUF_SERVER_URL,
+      version,
+      this.os,
+      this.arch,
+      ext
+    )
+  }
+
   private async _downloadAndCache(binaryUrl: string): Promise<string> {
+    const binaryName = binaryUrl.substring(binaryUrl.lastIndexOf('/') + 1)
     const downloadedBinaryPath = await cache.downloadTool(binaryUrl)
-    const parsedDownloadedBinaryPath = path.parse(downloadedBinaryPath)
-    const cacheDownloadToolDir = parsedDownloadedBinaryPath.dir
-    const tmpWerfVersionBinaryPath = path.join(cacheDownloadToolDir, 'werf.tmp')
-    const werfVersionDir = path.join(
+    const cacheDownloadToolDir = path.dirname(downloadedBinaryPath)
+    const tmpWerfVersionBinaryPath = path.join(
       cacheDownloadToolDir,
-      parsedDownloadedBinaryPath.name
+      `${binaryName}.tmp`
     )
-    const werfVersionBinaryPath = path.join(
-      werfVersionDir,
-      String.Format('werf{0}', parsedDownloadedBinaryPath.ext)
-    )
+    const werfVersionDir = path.join(cacheDownloadToolDir, CACHE_TOOL_DIR)
+    const werfVersionBinaryPath = path.join(werfVersionDir, binaryName)
 
     // werf-x.x.x -> werf.tmp
     // werf.tmp -> werf-x.x.x/werf
@@ -159,7 +186,7 @@ export class Manager {
 
     await cache.cacheDir(
       werfVersionDir,
-      'werf',
+      CACHE_TOOL_NAME,
       Manager._toolVersionCacheID(binaryUrl)
     )
 
