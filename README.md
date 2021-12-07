@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/werf/werf/main/docs/site/images/werf-logo.svg?sanitize=true" style="max-height:100%;" height="175">
+  <img src="https://werf.io/assets/images/werf-logo.svg?sanitize=true" style="max-height:100%;" height="175">
 </p>
 ___
 
