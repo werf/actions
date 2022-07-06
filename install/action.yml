@@ -1,6 +1,6 @@
 name: Install werf CLI
 author: 'Flant'
-description: 'Install actual channel werf version, like multiwerf does, or specified one'
+description: 'Install werf CLI'
 branding:
   color: blue
   icon: anchor
