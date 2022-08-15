@@ -5,17 +5,17 @@ ___
 
 This action set allows you to organize CI/CD with GitHub Actions and [werf](https://github.com/werf/werf). The set consists of several independent and complex actions:
 
-- [werf/actions/converge](https://github.com/werf/actions/tree/master/converge)
-- [werf/actions/dismiss](https://github.com/werf/actions/tree/master/dismiss)
-- [werf/actions/build](https://github.com/werf/actions/tree/master/build)
-- [werf/actions/run](https://github.com/werf/actions/tree/master/run)
-- [werf/actions/cleanup](https://github.com/werf/actions/tree/master/cleanup)
+- [werf/actions/converge](https://github.com/werf/actions/tree/v1.2/converge)
+- [werf/actions/dismiss](https://github.com/werf/actions/tree/v1.2/dismiss)
+- [werf/actions/build](https://github.com/werf/actions/tree/v1.2/build)
+- [werf/actions/run](https://github.com/werf/actions/tree/v1.2/run)
+- [werf/actions/cleanup](https://github.com/werf/actions/tree/v1.2/cleanup)
 
 Each action combines all the necessary steps in itself, and logic may be divided into [environment setup](#environment-setup-in-details) and launching the corresponding command. 
 
 **Ready-to-use GitHub Actions Workflows** for different CI/CD workflows are available [here](https://werf.io/documentation/v1.2/advanced/ci_cd/github_actions.html#complete-set-of-configurations-for-ready-made-workflows).
 
-> Also, there is another action — [werf/actions/install](https://github.com/werf/actions/tree/master/install). With this action, the user can install werf and use binary within job steps for own purposes.
+> Also, there is another action — [werf/actions/install](https://github.com/werf/actions/tree/v1.2/install). With this action, the user can install werf and use binary within job steps for own purposes.
 
 ## Versioning
 
