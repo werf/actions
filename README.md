@@ -5,20 +5,20 @@ ___
 
 This action set allows you to organize CI/CD with GitHub Actions and [werf](https://github.com/werf/werf). The set consists of several independent and complex actions:
 
-- [werf/actions/converge](https://github.com/werf/actions/tree/master/converge)
-- [werf/actions/build-and-publish](https://github.com/werf/actions/tree/master/build-and-publish)
-- [werf/actions/build](https://github.com/werf/actions/tree/master/build)
-- [werf/actions/publish](https://github.com/werf/actions/tree/master/build)
-- [werf/actions/deploy](https://github.com/werf/actions/tree/master/deploy)
-- [werf/actions/dismiss](https://github.com/werf/actions/tree/master/dismiss)
-- [werf/actions/run](https://github.com/werf/actions/tree/master/run)
-- [werf/actions/cleanup](https://github.com/werf/actions/tree/master/cleanup)
+- [werf/actions/converge](https://github.com/werf/actions/tree/v1.1/converge)
+- [werf/actions/build-and-publish](https://github.com/werf/actions/tree/v1.1/build-and-publish)
+- [werf/actions/build](https://github.com/werf/actions/tree/v1.1/build)
+- [werf/actions/publish](https://github.com/werf/actions/tree/v1.1/build)
+- [werf/actions/deploy](https://github.com/werf/actions/tree/v1.1/deploy)
+- [werf/actions/dismiss](https://github.com/werf/actions/tree/v1.1/dismiss)
+- [werf/actions/run](https://github.com/werf/actions/tree/v1.1/run)
+- [werf/actions/cleanup](https://github.com/werf/actions/tree/v1.1/cleanup)
 
 Each action combines all the necessary steps in itself and logic may be divided into environment setup and launching the corresponding command. 
 
 **Ready-to-use GitHub Actions Workflows** for different CI/CD workflows are available [here](https://werf.io/v1.1-alpha/documentation/guides/github_ci_cd_integration.html#complete-set-of-configurations-for-ready-made-workflows).
 
-> Also, there is another action — [werf/actions/install](https://github.com/werf/actions/tree/master/install). With this action a user can just install werf and use binary within job steps for own purposes
+> Also, there is another action — [werf/actions/install](https://github.com/werf/actions/tree/v1.1/install). With this action a user can just install werf and use binary within job steps for own purposes
 
 ## Versioning
 
