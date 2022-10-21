@@ -265,8 +265,8 @@ Make sure to use `fetch-depth: 0` setting in the checkout action, like follows:
 ```
 - name: Checkout code
   uses: actions/checkout@v2
-    with:
-      fetch-depth: 0
+  with:
+    fetch-depth: 0
 ```
 
 By default fetch-depth set to `1` which disables git history when checking out code. werf cache selection algorithm uses git history to determine whether some image bound to some commit could be used as a cache when building current commit (current commit should be descendant to the cache commit).
