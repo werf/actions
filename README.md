@@ -239,6 +239,23 @@ werf:
         WERF_ENV: production
 ```
 
+# FAQ
+
+## werf always rebuilds images on new commit
+
+Make sure to use `fetch-depth: 0` setting in the checkout action, like follows:
+
+```
+- name: Checkout code
+  uses: actions/checkout@v2
+  with:
+    fetch-depth: 0
+```
+
+By default fetch-depth set to `1` which disables git history when checking out code. werf cache selection algorithm uses git history to determine whether some image bound to some commit could be used as a cache when building current commit (current commit should be descendant to the cache commit).
+
+Setting `fetch-depth` to `0` enables full fetch of git history and it is a **recommended** approach. It is also possible to limit fetch history with some decent number of commits, which would enable images caching limited to that number of commits, but this would have a negative impact on cache reproducibility.
+
 # License
 
 Apache License 2.0, see [LICENSE](LICENSE)
