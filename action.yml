@@ -23,5 +23,5 @@ inputs:
     description: 'Base64 encoded kubeconfig data used for deployment, cleanup and distributed locks'
     required: false
 runs:
-  using: 'node12'
+  using: 'node16'
   main: 'converge/index.js'
