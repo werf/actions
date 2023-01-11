@@ -64,7 +64,7 @@ This is the step where the action:
 
 ## Cleaning up container registry
 
-The action generates the default container repository address and performs _docker login_ to the registry within [werf ci-env step](#werf-ci-env).
+The action generates the default container repository address and performs _docker login_ to the registry within [environment setup](#environment-setup) step.
 
 For cleanup action, the user needs [to create personal access token](https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token) with `read:packages` and `delete:packages` scope and uses it as the `WERF_REPO_GITHUB_TOKEN` environment variable or the `github-token` input. It is recommended [to store the token as a secret](https://help.github.com/en/actions/configuring-and-managing-workflows/creating-and-storing-encrypted-secrets).
 
