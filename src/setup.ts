@@ -1,10 +1,9 @@
 import * as core from '@actions/core'
-import {Manager} from './manager'
+import {Setup} from './common'
 
 async function run(): Promise<void> {
   try {
-    const m = new Manager()
-    await m.Install()
+    await Setup()
   } catch (error) {
     core.setFailed(error.message)
   }

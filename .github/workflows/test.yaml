@@ -15,11 +15,13 @@ jobs:
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
-
-      - name: Install
-        uses: ./install
-
-      - run: werf version
+        
+      - name: Setup werf
+        uses: ./setup
+        
+      - run: |
+          env
+          werf version
 
   version:
     name: By version
@@ -35,9 +37,11 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Install
-        uses: ./install
+      - name: Setup werf
+        uses: ./setup
         with:
           version: v1.2.35
 
-      - run: werf version
+      - run: |
+          env
+          werf version

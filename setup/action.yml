@@ -1,6 +1,6 @@
 name: Install werf CLI
 author: 'Flant'
-description: 'Install werf CLI'
+description: 'Install werf CLI and setup environment'
 branding:
   color: blue
   icon: anchor
