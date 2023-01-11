@@ -34,16 +34,6 @@ converge:
 
 ## Versioning
 
-When using action, select the version corresponding to the required `MAJOR.MINOR` version of werf:
-
-```yaml
-# Setup actual werf version within 1.1 alpha channel.
-- uses: werf/actions/setup@v1.1
-    
-# Setup actual werf version within 1.2 alpha channel.
-- uses: werf/actions/setup@v1.2
-```
-
 By default, the action installs actual werf version within alpha channel (more details about channels, werf release cycle and compatibility promise [here](https://werf.io/installation.html#all-changes-in-werf-go-through-all-stability-channels)). 
 Using the `channel` input the user can switch the release channel.
 
