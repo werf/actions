@@ -9,6 +9,26 @@ import * as werf from './werf'
 
 const minimalWerfVersion = 'v1.1.17'
 
+export async function Setup(): Promise<void> {
+  try {
+    ProcessGitHubContext()
+
+    const kubeConfigBase64Data = core.getInput('kube-config-base64-data')
+    if (kubeConfigBase64Data !== '') {
+      SetupKubeConfig(kubeConfigBase64Data)
+    }
+
+    const m = new Manager()
+    await m.Install()
+
+    process.env.GITHUB_TOKEN =
+      process.env.GITHUB_TOKEN || core.getInput('github-token')
+    await m.PerformCIEnv()
+  } catch (error) {
+    core.setFailed(error.message)
+  }
+}
+
 export async function PrepareEnvironAndRunWerfCommand(
   args: string[]
 ): Promise<void> {
