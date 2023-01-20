@@ -70,7 +70,7 @@ Withal, it is not necessary to work within release channels, and the user might 
 
 Make sure to use `fetch-depth: 0` setting in the checkout action, like follows:
 
-```
+```yaml
 - name: Checkout code
   uses: actions/checkout@v3
   with:
