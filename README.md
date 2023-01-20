@@ -16,7 +16,7 @@ converge:
   steps:
 
     - name: Checkout code
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
       with:
         fetch-depth: 0
     
@@ -72,7 +72,7 @@ Make sure to use `fetch-depth: 0` setting in the checkout action, like follows:
 
 ```
 - name: Checkout code
-  uses: actions/checkout@v2
+  uses: actions/checkout@v3
   with:
     fetch-depth: 0
 ```
