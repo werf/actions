@@ -26,7 +26,6 @@ converge:
     - name: Run script
       run: |
         . $(werf ci-env github --as-file) 
-        werf render
         werf converge
       env:
         WERF_KUBECONFIG_BASE64: ${{ secrets.KUBE_CONFIG_BASE64_DATA }}
