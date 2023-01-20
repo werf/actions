@@ -83,6 +83,11 @@ export class Manager {
     const tmpFilePath = tmpFile.name
     await this.Exec(['ci-env', 'github', '--as-env-file', '-o', tmpFilePath])
     const res = dotenv.config({path: tmpFilePath})
+    if (res.parsed) {
+      for (const [key, value] of Object.entries(res.parsed)) {
+        core.exportVariable(key, value)
+      }
+    }
     console.log(res.parsed)
     tmpFile.removeCallback()
   }
