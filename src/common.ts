@@ -47,13 +47,17 @@ export async function SetupKubeConfig(
 export function ProcessGitHubContext(): void {
   if (context.eventName === 'pull_request') {
     if (context.payload.pull_request) {
+      // Do nothing if virtual merge variable is already set
+      if (process.env.WERF_VIRTUAL_MERGE) {
+        return
+      }
+
       const baseSha = context.payload.pull_request.base.sha
       const headSha = context.payload.pull_request.head.sha
 
       process.env.WERF_VIRTUAL_MERGE = '1'
       process.env.WERF_VIRTUAL_MERGE_FROM_COMMIT = headSha
       process.env.WERF_VIRTUAL_MERGE_INTO_COMMIT = baseSha
-
       core.exportVariable('WERF_VIRTUAL_MERGE', '1')
       core.exportVariable('WERF_VIRTUAL_MERGE_FROM_COMMIT', headSha)
       core.exportVariable('WERF_VIRTUAL_MERGE_INTO_COMMIT', baseSha)

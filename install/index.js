@@ -31672,6 +31672,10 @@ exports.SetupKubeConfig = SetupKubeConfig;
 function ProcessGitHubContext() {
     if (github_1.context.eventName === 'pull_request') {
         if (github_1.context.payload.pull_request) {
+            // Do nothing if virtual merge variable is already set
+            if (process.env.WERF_VIRTUAL_MERGE) {
+                return;
+            }
             const baseSha = github_1.context.payload.pull_request.base.sha;
             const headSha = github_1.context.payload.pull_request.head.sha;
             process.env.WERF_VIRTUAL_MERGE = '1';
