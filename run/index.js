@@ -31680,7 +31680,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.ValidateWerfVersion = exports.ProcessGitHubContext = exports.SetupKubeConfig = exports.PrepareEnvironAndRunWerfCommand = exports.Setup = void 0;
+exports.ValidateWerfVersion = exports.ProcessGitHubContext = exports.SetupKubeConfig = exports.PrepareEnvironAndRunWerfCommand = void 0;
 const core = __importStar(__nccwpck_require__(4181));
 const tmp = __importStar(__nccwpck_require__(3728));
 const fs = __importStar(__nccwpck_require__(7147));
@@ -31690,26 +31690,6 @@ const typescript_string_operations_1 = __nccwpck_require__(9363);
 const manager_1 = __nccwpck_require__(1856);
 const werf = __importStar(__nccwpck_require__(8525));
 const minimalWerfVersion = 'v1.1.17';
-function Setup() {
-    return __awaiter(this, void 0, void 0, function* () {
-        try {
-            ProcessGitHubContext();
-            const kubeConfigBase64Data = core.getInput('kube-config-base64-data');
-            if (kubeConfigBase64Data !== '') {
-                SetupKubeConfig(kubeConfigBase64Data);
-            }
-            const m = new manager_1.Manager();
-            yield m.Install();
-            process.env.GITHUB_TOKEN =
-                process.env.GITHUB_TOKEN || core.getInput('github-token');
-            yield m.PerformCIEnv();
-        }
-        catch (error) {
-            core.setFailed(error.message);
-        }
-    });
-}
-exports.Setup = Setup;
 function PrepareEnvironAndRunWerfCommand(args) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
@@ -31744,6 +31724,10 @@ exports.SetupKubeConfig = SetupKubeConfig;
 function ProcessGitHubContext() {
     if (github_1.context.eventName === 'pull_request') {
         if (github_1.context.payload.pull_request) {
+            // Do nothing if virtual merge variable is already set
+            if (process.env.WERF_VIRTUAL_MERGE) {
+                return;
+            }
             const baseSha = github_1.context.payload.pull_request.base.sha;
             const headSha = github_1.context.payload.pull_request.head.sha;
             process.env.WERF_VIRTUAL_MERGE = '1';

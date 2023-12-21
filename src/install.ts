@@ -5,7 +5,7 @@ import {ProcessGitHubContext} from './common'
 async function run(): Promise<void> {
   try {
     ProcessGitHubContext()
-    
+
     const m = new Manager()
     await m.Install()
   } catch (error) {
