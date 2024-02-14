@@ -33,7 +33,7 @@ cleanup:
   steps:
   
     - name: Checkout code
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: Fetch all history for all tags and branches
       run: git fetch --prune --unshallow

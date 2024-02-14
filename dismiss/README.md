@@ -36,7 +36,7 @@ dismiss:
   steps:
   
     - name: Checkout code
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: Dismiss
       uses: werf/actions/dismiss@v1.2
