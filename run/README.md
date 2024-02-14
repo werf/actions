@@ -40,7 +40,7 @@ run:
   steps:
   
     - name: Checkout code
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       with:
         fetch-depth: 0
 
