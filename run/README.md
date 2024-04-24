@@ -45,7 +45,7 @@ run:
         fetch-depth: 0
 
     - name: Run
-      uses: werf/actions/run@v1.2
+      uses: werf/actions/run@v2
       with:
         image: backend
         args: rails server

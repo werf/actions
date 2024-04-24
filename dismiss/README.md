@@ -39,7 +39,7 @@ dismiss:
       uses: actions/checkout@v4
 
     - name: Dismiss
-      uses: werf/actions/dismiss@v1.2
+      uses: werf/actions/dismiss@v2
       with:
         kube-config-base64-data: ${{ secrets.KUBE_CONFIG_BASE64_DATA }}
         env: production

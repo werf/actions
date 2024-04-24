@@ -21,7 +21,7 @@ converge:
         fetch-depth: 0
     
     - name: Install werf
-      uses: werf/actions/install@v1.2
+      uses: werf/actions/install@v2
       
     - name: Run script
       run: |
@@ -34,15 +34,7 @@ converge:
 
 ## Versioning
 
-When using action, select the version corresponding to the required `MAJOR.MINOR` version of werf:
-
-```yaml
-# Setup actual werf version within 1.1 alpha channel.
-- uses: werf/actions/install@v1.1
-    
-# Setup actual werf version within 1.2 alpha channel.
-- uses: werf/actions/install@v1.2
-```
+When using action, select the version corresponding to the required `MAJOR` version of werf.
 
 By default, the action installs actual werf version within alpha channel (more details about channels, werf release cycle and compatibility promise [here](https://werf.io/installation.html#all-changes-in-werf-go-through-all-stability-channels)). 
 Using the `channel` input the user can switch the release channel.
@@ -50,7 +42,7 @@ Using the `channel` input the user can switch the release channel.
 > This is recommended approach to be up-to-date and to use actual werf version without changing configurations.
   
 ```yaml
-- uses: werf/actions/install@v1.2
+- uses: werf/actions/install@v2
   with:
     channel: alpha
 ```
@@ -58,9 +50,9 @@ Using the `channel` input the user can switch the release channel.
 Withal, it is not necessary to work within release channels, and the user might specify certain werf version with `version` input.
 
 ```yaml
-- uses: werf/actions/install@v1.2
+- uses: werf/actions/install@v2
   with:
-    version: v1.2.9
+    version: v2.1.0
 ```
 
 ## FAQ
@@ -78,7 +70,7 @@ Make sure to use `fetch-depth: 0` setting in the checkout action, like follows:
 
 By default, fetch-depth set to `1` which disables git history when checking out code. werf cache selection algorithm uses git history to determine whether some image bound to some commit could be used as a cache when building current commit (current commit should be descendant to the cache commit).
 
-Setting `fetch-depth` to `0` enables full fetch of git history and it is a **recommended** approach. It is also possible to limit fetch history with some decent number of commits, which would enable images caching limited to that number of commits, but this would have a negative impact on cache reproducibility.
+Setting `fetch-depth` to `0` enables full fetch of git history, and it is a **recommended** approach. It is also possible to limit fetch history with some decent number of commits, which would enable images caching limited to that number of commits, but this would have a negative impact on cache reproducibility.
 
 ## License
 

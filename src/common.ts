@@ -7,8 +7,6 @@ import {String} from 'typescript-string-operations'
 import {Manager} from './manager'
 import * as werf from './werf'
 
-const minimalWerfVersion = 'v1.1.17'
-
 export async function PrepareEnvironAndRunWerfCommand(
   args: string[]
 ): Promise<void> {
@@ -67,27 +65,15 @@ export function ProcessGitHubContext(): void {
 
 export function ValidateWerfVersion(version: string): void {
   const ver = semver.coerce(version)
-  if (ver) {
-    if (ver.major !== werf.MAJOR || ver.minor !== werf.MINOR) {
-      throw new Error(
-        String.Format(
-          'The arbitrary version ({0}) must be within the MAJOR.MINOR ({1})',
-          version.trim(),
-          werf.MAJOR_MINOR_GROUP
-        )
-      )
-    }
-
-    if (semver.gte(ver, minimalWerfVersion)) {
-      return
-    }
+  if (ver && ver.major === werf.MAJOR) {
+    return
   }
 
   throw new Error(
     String.Format(
-      'werf version {0} is not supported (expected version must be equal or greater than {1})',
+      'werf version {0} is not supported: the version must be semver and within the MAJOR ({1})',
       version.trim(),
-      minimalWerfVersion
+      werf.GROUP
     )
   )
 }

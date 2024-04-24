@@ -125,7 +125,7 @@ export class Manager {
       return this._constructReleaseUrl(version)
     }
 
-    const url = `${WERF_TUF_SERVER_URL}/targets/channels/${werf.MAJOR_MINOR_GROUP}/${this.channel}`
+    const url = `${WERF_TUF_SERVER_URL}/targets/channels/${werf.GROUP}/${this.channel}`
     try {
       const resp = await request
         .get(url)

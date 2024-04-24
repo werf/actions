@@ -39,7 +39,7 @@ cleanup:
       run: git fetch --prune --unshallow
 
     - name: Cleanup
-      uses: werf/actions/cleanup@v1.2
+      uses: werf/actions/cleanup@v2
       with:
         kube-config-base64-data: ${{ secrets.KUBE_CONFIG_BASE64_DATA }}
       env:

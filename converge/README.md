@@ -41,7 +41,7 @@ converge:
         fetch-depth: 0
 
     - name: Converge
-      uses: werf/actions/converge@v1.2
+      uses: werf/actions/converge@v2
       with:
         kube-config-base64-data: ${{ secrets.KUBE_CONFIG_BASE64_DATA }}
         env: production

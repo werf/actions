@@ -38,7 +38,7 @@ build:
         fetch-depth: 0
 
     - name: Build
-      uses: werf/actions/build@v1.2
+      uses: werf/actions/build@v2
       with:
         kube-config-base64-data: ${{ secrets.KUBE_CONFIG_BASE64_DATA }}
 ```
