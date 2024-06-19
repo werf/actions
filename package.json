@@ -13,7 +13,7 @@
     "superagent": "^6.1.0",
     "tmp": "^0.2.1",
     "typescript-string-operations": "^1.4.0",
-    "ws": ">=8.2.3"
+    "ws": ">=8.17.1"
   },
   "devDependencies": {
     "@types/node": "^12.19.1",
