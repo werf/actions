@@ -63,6 +63,6 @@ werf:
         werf render
         werf converge
       env:
-        GITHUB_TOKEN: ${{ github.token }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         WERF_ENV: production
 ```
