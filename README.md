@@ -58,7 +58,7 @@ Withal, it is not necessary to work within release channels, and the user might 
 
 ## FAQ
 
-### Werf always rebuilds images on new commit
+### werf always rebuilds images on new commit
 
 Make sure to use `fetch-depth: 0` setting in the checkout action, like follows:
 
