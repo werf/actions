@@ -99,7 +99,7 @@ converge:
       env:
         WERF_KUBECONFIG_BASE64: ${{ secrets.KUBE_CONFIG_BASE64_DATA }}
         WERF_ENV: production
-        WERF_REPO: registry.example.com
+        WERF_REPO: registry.example.com/repo
 ```
 
 > Environment variables **`WERF_REPO`** and **`GITHUB_TOKEN`** for converge should only be used if building images is required otherwise they can be omitted 
