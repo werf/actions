@@ -38,6 +38,6 @@ jobs:
       - name: Install
         uses: ./install
         with:
-          version: v2.1.0
+          version: v2.31.1
 
       - run: werf version
