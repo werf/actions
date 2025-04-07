@@ -106,6 +106,83 @@ converge:
 
 In the simplest case, if an [integrated GitHub Packages-like container registry](https://help.github.com/en/packages/using-github-packages-with-your-projects-ecosystem/configuring-docker-for-use-with-github-packages) is used, then the authorization is performed automatically when the `werf ci-env` command is invoked. This command is run with several required arguments such as GitHub environment variables, the [`GITHUB_TOKEN` secret](https://help.github.com/en/actions/configuring-and-managing-workflows/authenticating-with-the-github_token#about-the-github_token-secret) (you have to explicitly declare it).
 
+### Using Docker Buildx
+
+To build multi-platform images or customize the build environment, you can use [docker/setup-buildx-action@v3](https://github.com/docker/setup-buildx-action). Below are two usage examples depending on the build driver: default `docker-container` and `docker`.
+
+#### 1. Docker buildx with default `docker-container` driver
+
+This is the default and recommended mode for most CI builds. It runs builds inside a container-based builder instance.
+
+```yaml
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Install werf
+        uses: werf/actions/install@v2
+
+      - name: cr login
+        run: werf cr login -u ${{ secrets.REGISTRY_USER }} -p ${{ secrets.REGISTRY_TOKEN }} registry.example.com
+
+      - name: converge
+        run: |
+          . $(werf ci-env github --as-file)
+          werf converge
+        env:
+          WERF_KUBECONFIG_BASE64: ${{ secrets.KUBE_CONFIG_BASE64_DATA }}
+          WERF_ENV: production
+```
+
+> No additional configuration is required, and QEMU is automatically used for cross-platform builds.
+
+#### 2. Docker buildx with `docker` driver
+
+The `docker` driver runs builds directly on the host using the native Docker engine. This may be useful for compatibility reasons or specific local setups. To enable cross-platform builds with the `docker` driver, QEMU must be manually installed.
+
+```yaml
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx with docker driver
+        uses: docker/setup-buildx-action@v3
+        with:
+          driver: docker
+
+      - name: Install werf
+        uses: werf/actions/install@v2
+
+      - name: cr login
+        run: werf cr login -u ${{ secrets.REGISTRY_USER }} -p ${{ secrets.REGISTRY_TOKEN }} registry.example.com
+
+      - name: converge
+        run: |
+          . $(werf ci-env github --as-file)
+          werf converge
+        env:
+          WERF_KUBECONFIG_BASE64: ${{ secrets.KUBE_CONFIG_BASE64_DATA }}
+          WERF_ENV: production
+```
+
+> When using the `docker` driver, make sure your Docker daemon supports the target platforms, and QEMU is available if you build for other architectures (e.g., `linux/arm64`).
+
 ## License
 
 Apache License 2.0, see [LICENSE](LICENSE)
