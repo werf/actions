@@ -144,45 +144,6 @@ jobs:
 
 > No additional configuration is required, and QEMU is automatically used for cross-platform builds.
 
-#### 2. Docker buildx with `docker` driver
-
-The `docker` driver runs builds directly on the host using the native Docker engine. This may be useful for compatibility reasons or specific local setups. To enable cross-platform builds with the `docker` driver, QEMU must be manually installed.
-
-```yaml
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v3
-
-      - name: Set up Docker Buildx with docker driver
-        uses: docker/setup-buildx-action@v3
-        with:
-          driver: docker
-
-      - name: Install werf
-        uses: werf/actions/install@v2
-
-      - name: cr login
-        run: werf cr login -u ${{ secrets.REGISTRY_USER }} -p ${{ secrets.REGISTRY_TOKEN }} registry.example.com
-
-      - name: converge
-        run: |
-          . $(werf ci-env github --as-file)
-          werf converge
-        env:
-          WERF_KUBECONFIG_BASE64: ${{ secrets.KUBE_CONFIG_BASE64_DATA }}
-          WERF_ENV: production
-```
-
-> When using the `docker` driver, make sure your Docker daemon supports the target platforms, and QEMU is available if you build for other architectures (e.g., `linux/arm64`).
-
 ## License
 
 Apache License 2.0, see [LICENSE](LICENSE)
