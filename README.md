@@ -108,11 +108,7 @@ In the simplest case, if an [integrated GitHub Packages-like container registry]
 
 ### Building multi-platform images
 
-To build multi-platform images or customize the build environment, you can use [docker/setup-buildx-action@v3](https://github.com/docker/setup-buildx-action). Below are two usage examples depending on the build driver: default `docker-container` and `docker`.
-
-#### 1. Docker buildx with default `docker-container` driver
-
-This is the default and recommended mode for most CI builds. It runs builds inside a container-based builder instance.
+To build multi-platform images or customize the build environment, you can use [docker/setup-buildx-action@v3](https://github.com/docker/setup-buildx-action).
 
 ```yaml
 jobs:
