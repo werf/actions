@@ -11,7 +11,7 @@ The action combines all the necessary steps in itself and logic may be divided i
 inputs:
   channel:
     description: 'The one of the following channel: alpha, beta, ea, stable, rock-solid'
-    default: 'alpha'
+    default: 'stable'
     required: false
   version:
     description: 'The certain version'

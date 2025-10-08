@@ -27,7 +27,7 @@ Withal, it is not necessary to work within release channels, and the user might 
 ```yaml
 channel:
   description: 'The one of the following channel: alpha, beta, ea, stable, rock-solid'
-  default: 'alpha'
+  default: 'stable'
   required: false
 version:
   description: 'The certain version'
