@@ -5,7 +5,7 @@ ___
 
 This action allows you to organize CI/CD with GitHub Actions and [werf](https://github.com/werf/werf).
 
-**Ready-to-use GitHub Actions Workflows** for different CI/CD workflows are available [here](https://werf.io/guides/nodejs/400_ci_cd_workflow/040_github_actions.html).
+**Ready-to-use GitHub Actions Workflows** for different CI/CD workflows are available [here]([https://werf.io/guides/nodejs/400_ci_cd_workflow/040_github_actions.html](https://werf.io/getting_started/?usage=ci&ci=githubActions&runnerType=hostRunner&os=linux&buildBackend=buildah&projectType=simplified&sharedCICD=no&repoType=application)).
 
 ## How to use
 
