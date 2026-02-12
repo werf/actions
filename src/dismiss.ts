@@ -3,7 +3,11 @@ import {PrepareEnvironAndRunWerfCommand} from './common'
 
 async function run(): Promise<void> {
   try {
-    process.env.WERF_ENV = core.getInput('env')
+    // with.env parameter has priority over WERF_ENV environment variable
+    const envInput = core.getInput('env').trim()
+    if (envInput !== '') {
+      process.env.WERF_ENV = envInput
+    }
     await PrepareEnvironAndRunWerfCommand(['dismiss'])
   } catch (error) {
     core.setFailed(error.message)
