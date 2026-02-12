@@ -12,7 +12,7 @@ inputs:
   version:
     description: 'The certain version'
     required: false
-  env: # TODO: Remove this deprecated werf option, which is not required anymore (use WERF_ENV variable instead)
+  env: # DEPRECATED: Use WERF_ENV environment variable instead (e.g., env: { WERF_ENV: value })
     description: 'Specific deployment environment'
     required: false
   github-token:
