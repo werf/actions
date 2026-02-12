@@ -12,8 +12,9 @@ inputs:
   version:
     description: 'The certain version'
     required: false
-  env: # TODO: Remove this deprecated werf option, which is not required anymore (use WERF_ENV variable instead)
+  env: # DEPRECATED: Use WERF_ENV environment variable instead (e.g., env: { WERF_ENV: value })
     description: 'Specific deployment environment'
+    default: ''
     required: false
   github-token:
     description: 'The GitHub token used to login and to interact with Docker Github Packages'
